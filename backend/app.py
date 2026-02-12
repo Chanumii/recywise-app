@@ -24,7 +24,11 @@ app = FastAPI(title="RecyWise Backend")
 # Configure CORS for frontend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "https://recy-wise-frontend.onrender.com",  # Your production frontend
+        "http://localhost:5173",  # Vite dev server (for local development)
+        "http://localhost:3000"   # Alternative local port
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
