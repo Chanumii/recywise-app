@@ -7,3 +7,6 @@ yfinance==0.2.33
 requests==2.31.0
 pydantic==2.5.2
 python-multipart==0.0.6
+python-jose[cryptography]
+passlib[bcrypt]
+sqlalchemy

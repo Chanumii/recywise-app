@@ -1,313 +1,1555 @@
-/**
- * RecyWise - Main Stylesheet
- */
 
 /* ===================================================================
-   1. RESET & BASE STYLES
+   1. RESET & BASE
+   Universal box-sizing and font stack applied to every element.
    =================================================================== */
-* {
-  margin: 0;
-  padding: 0;
+
+*, *::before, *::after {
+  margin:     0;
+  padding:    0;
   box-sizing: border-box;
 }
 
 body, html, #root {
-  height: 100%; 
-  width: 100%; 
-  margin: 0;   
-  padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  height:    100%;
+  width:     100%;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
+    'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans',
+    'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  background-color: #f1f5f9;   /* slate-100 page background */
 }
 
+
 /* ===================================================================
-   2. NAVIGATION BAR
+   2. APP SHELL
    =================================================================== */
+
+/* Root flex column spans the full viewport height */
+.app-root {
+  display:        flex;
+  flex-direction: column;
+  min-height:     100vh;
+}
+
+/* Body row sits below the fixed 4rem navbar */
+.app-body {
+  display:    flex;
+  flex:       1;
+  padding-top: 4rem;                   /* offset for fixed navbar height */
+  min-height: calc(100vh - 4rem - 52px); /* 52px = footer height */
+}
+
+/* Main content area fills remaining horizontal space */
+.app-content {
+  flex:      1;
+  min-width: 0;                        /* prevents flex overflow */
+  background-color: #f1f5f9;
+  overflow-x: hidden;
+}
+
+/* Padded page wrapper used by Dashboard, History, Results, Settings */
+.page-content {
+  padding: 1.5rem 2rem 2rem;
+  width:   100%;
+}
+
+/* Standard page header block */
+.page-header {
+  margin-bottom: 1.25rem;
+}
+
+/* Centred heading variant used by static pages (Privacy, Terms, Support).
+   Fix 1 (v2.3.0): centres the h1 so legal/info pages look formal. */
+.page-header-centered {
+  text-align:    center;
+  margin-bottom: 1.5rem;
+}
+
+.page-title    { font-size: 1.5rem;    font-weight: 700; color: #0f172a; }
+.page-subtitle { font-size: 0.875rem;  color: #64748b;   margin-top: 0.25rem; }
+
+
+/* ===================================================================
+   3. NAVBAR
+   =================================================================== */
+
 .navbar {
-  background-color: #1f2937;
-  color: white;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 50;
-  height: 4rem;
+  background-color: #0f172a;           /* slate-950 */
+  color:            white;
+  box-shadow:       0 1px 4px rgba(0,0,0,0.3);
+  position:         fixed;
+  top:    0;
+  left:   0;
+  right:  0;
+  z-index: 100;
+  height:  4rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
 }
 
 .navbar-container {
-  max-width: 100%;
-  margin: 0 auto;
-  padding: 0 2rem;
-  height: 100%;
-  display: flex;
+  max-width:  100%;
+  margin:     0 auto;
+  padding:    0 1.5rem;
+  height:     100%;
+  display:    flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.navbar-brand { display: flex; align-items: center; gap: 0.75rem; }
-.navbar-logo {
-  width: 2.5rem; height: 2.5rem; border: 2px solid white;
-  display: flex; align-items: center; justify-content: center;
+/* Clickable brand logo button */
+.navbar-brand-btn {
+  display:     flex;
+  align-items: center;
+  gap:         0.625rem;
+  background:  none;
+  border:      none;
+  cursor:      pointer;
+  padding:     0.375rem 0.5rem;
+  border-radius: 0.375rem;
+  transition:  background-color 0.15s;
 }
-.logo-icon { width: 1.5rem; height: 1.5rem; }
-.navbar-title { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.025em; }
+.navbar-brand-btn:hover { background-color: rgba(255,255,255,0.08); }
+
+/* Right-hand container — Settings gear + New Vehicle button */
+.navbar-right {
+  display:     flex;
+  align-items: center;
+  gap:         0.625rem;
+}
+
+/* Settings gear icon button — added v2.3.0 */
+.nav-settings-btn {
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  width:         2.25rem;
+  height:        2.25rem;
+  background:    none;
+  border:        none;
+  border-radius: 0.4375rem;
+  color:         #94a3b8;              /* slate-400 — muted to not compete with brand */
+  cursor:        pointer;
+  transition:    background-color 0.15s, color 0.15s;
+  flex-shrink:   0;
+}
+.nav-settings-btn:hover {
+  background-color: rgba(255,255,255,0.1);
+  color:            #e2e8f0;           /* brighten on hover */
+}
+.nav-settings-btn:active {
+  background-color: rgba(255,255,255,0.16);
+}
+
+/* Primary "New Vehicle" shortcut button */
+.nav-new-vehicle-btn {
+  display:       inline-flex;
+  align-items:   center;
+  padding:       0.375rem 0.875rem;
+  background-color: #059669;           /* emerald-600 brand green */
+  color:         white;
+  border:        none;
+  border-radius: 0.375rem;
+  font-size:     0.8125rem;
+  font-weight:   600;
+  cursor:        pointer;
+  transition:    background-color 0.15s;
+  white-space:   nowrap;
+}
+.nav-new-vehicle-btn:hover { background-color: #047857; }
+
 
 /* ===================================================================
-   3. FOOTER
+   4. SIDEBAR
    =================================================================== */
+
+.app-sidebar {
+  width:     220px;
+  min-width: 220px;
+  background-color: #1e293b;           /* slate-800 */
+  border-right: 1px solid rgba(255,255,255,0.06);
+  display:        flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position:   sticky;
+  top:        4rem;                    /* offset for fixed navbar */
+  height:     calc(100vh - 4rem);
+  overflow-y: auto;
+  flex-shrink: 0;
+}
+
+/* Navigation section within the sidebar */
+.sidebar-nav { padding: 1.125rem 0.75rem 0.5rem; }
+
+/* Small uppercase label above the nav items */
+.sidebar-section-label {
+  font-size:      0.625rem;
+  font-weight:    700;
+  color:          #475569;             /* slate-600 */
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding:        0 0.5rem;
+  margin-bottom:  0.5rem;
+  display:        block;
+}
+
+/* Individual sidebar navigation button */
+.sidebar-item {
+  display:     flex;
+  align-items: center;
+  gap:         0.625rem;
+  width:       100%;
+  padding:     0.5625rem 0.75rem;
+  font-size:   0.875rem;
+  font-weight: 500;
+  color:       #94a3b8;                /* slate-400 */
+  background:  none;
+  border:      none;
+  border-radius: 0.5rem;
+  cursor:      pointer;
+  text-align:  left;
+  transition:  background-color 0.12s, color 0.12s;
+  margin-bottom: 0.125rem;
+}
+.sidebar-item:hover        { background-color: rgba(255,255,255,0.07); color: #e2e8f0; }
+.sidebar-item.active       { background-color: #059669; color: #ffffff; font-weight: 600; }
+.sidebar-item.active:hover { background-color: #047857; }
+
+/* Icon inside each sidebar item */
+.sidebar-icon { width: 1rem; height: 1rem; flex-shrink: 0; }
+
+/* Help card at the bottom of the sidebar */
+.sidebar-help      { padding: 0 0.75rem 1.25rem; }
+.sidebar-help-card {
+  background:    rgba(255,255,255,0.05);
+  border:        1px solid rgba(255,255,255,0.08);
+  border-radius: 0.625rem;
+  padding:       0.875rem 1rem;
+}
+.sidebar-help-title { font-size: 0.8125rem; font-weight: 600; color: #e2e8f0; margin-bottom: 0.375rem; }
+.sidebar-help-text  { font-size: 0.75rem;   color: #64748b; line-height: 1.5; margin-bottom: 0.625rem; }
+.sidebar-help-btn {
+  background:  none;
+  border:      none;
+  color:       #059669;
+  font-size:   0.8125rem;
+  font-weight: 600;
+  cursor:      pointer;
+  padding:     0;
+  transition:  color 0.15s;
+}
+.sidebar-help-btn:hover { color: #34d399; }
+
+
+/* ===================================================================
+   5. FOOTER
+   =================================================================== */
+
 .footer {
-  background-color: #f3f4f6;
-  border-top: 1px solid #e5e7eb;
-  padding: 1.5rem 0;
-  margin-top: auto; 
-  flex-shrink: 0; 
+  background-color: #1e293b;
+  border-top:       1px solid rgba(255,255,255,0.06);
+  padding:          0.875rem 0;
+  flex-shrink:      0;
 }
 
 .footer-container {
   max-width: 100%;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
+  margin:    0 auto;
+  padding:   0 2rem;
+  display:   flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.875rem;
-  color: #4b5563;
+  gap:         0.5rem;
+  font-size:   0.8125rem;
 }
-
 @media (min-width: 768px) {
   .footer-container { flex-direction: row; justify-content: space-between; }
 }
 
-.footer-links { display: flex; gap: 1.5rem; }
-.footer-link { color: #4b5563; text-decoration: none; transition: color 0.2s; }
-.footer-link:hover { color: #111827; }
+.footer-copyright { color: #475569; }
+.footer-links     { display: flex; gap: 1.25rem; }
+.footer-link-btn {
+  background:  none;
+  border:      none;
+  cursor:      pointer;
+  color:       #64748b;
+  font-size:   0.8125rem;
+  transition:  color 0.15s;
+  padding:     0;
+}
+.footer-link-btn:hover { color: #94a3b8; }
+
 
 /* ===================================================================
-   4. PAGE LAYOUT 
+   6. FLOW SCREEN WRAPPER
+   Consistent card wrapper for every vehicle-processing screen (2–9).
    =================================================================== */
 
-.page-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  background-color: #f9fafb;
+/* Full-width outer container for flow screens */
+.flow-page {
+  width:      100%;
+  min-height: calc(100vh - 4rem - 52px);
+  padding:    1.375rem 2rem 2rem;
+  background-color: #f1f5f9;
 }
 
-.main-content {
-  flex: 1; 
-  display: flex;
-  flex-direction: column;
-  padding-top: 5rem; 
-  padding-bottom: 2rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
+/* Green-blue radial gradient background for intake/material screens */
+.flow-page-gradient {
+  background: linear-gradient(135deg,
+    #ecfdf5 0%, #f0f9ff 40%, #f8fafc 70%, #f5f3ff 100%);
 }
 
-.content-container-fullscreen {
-  flex: 1; 
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  max-width: 100%;
-  margin: 0 auto;
+/* Centred variant used only by Screen 9 (loading spinner).
+   Screen 2 uses flow-content-wrapper instead (Fix 5 / Fix 8). */
+.flow-page-centered {
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  padding:         2rem;
 }
 
+/* Inner centred column — 640 px default, 760 px for condition screen */
+.flow-content-wrapper      { width: 100%; max-width: 640px; margin: 0 auto; }
+.flow-content-wrapper-wide { max-width: 760px; }
+
+/* Back button inside flow wrapper — always top-left of the wrapper */
+.flow-back-btn { margin-bottom: 1.125rem; }
+
+/* Shared back-button style (also used on results & record-detail pages) */
 .back-button {
-  display: flex; align-items: center; gap: 0.5rem;
-  color: #4b5563; background: none; border: none;
-  font-size: 1rem; font-weight: 500; cursor: pointer;
-  margin-bottom: 1rem; padding: 0; transition: color 0.2s;
-  width: fit-content;
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+  color:       #475569;
+  background:  none;
+  border:      none;
+  font-size:   0.9375rem;
+  font-weight: 500;
+  cursor:      pointer;
+  padding:     0;
+  transition:  color 0.15s;
+  width:       fit-content;
 }
-.back-button:hover { color: #111827; }
-.back-icon { width: 1.25rem; height: 1.25rem; }
+.back-button:hover { color: #0f172a; }
+.back-icon         { width: 1.0625rem; height: 1.0625rem; }
 
+/* White card used on most flow screens */
 .card {
-  background-color: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  border: 1px solid #e5e7eb;
-  padding: 2rem;
-  width: 100%;
-  
-  flex: 1; 
-  display: flex;
-  flex-direction: column;
+  background:    white;
+  border-radius: 0.75rem;
+  box-shadow:    0 1px 4px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.04);
+  border:        1px solid #e2e8f0;
+  padding:       2rem;
 }
 
-@media (min-width: 768px) {
-  .card { padding: 3rem; }
-}
-
+/* Centred heading used inside .card on flow screens */
 .card-title {
-  font-size: 1.875rem; font-weight: 700; color: #111827;
-  margin-bottom: 2rem; text-align: center;
+  font-size:     1.375rem;
+  font-weight:   700;
+  color:         #0f172a;
+  margin-bottom: 1.25rem;
+  text-align:    center;
 }
+
 
 /* ===================================================================
-   5. BUTTONS
+   7. VIN HERO SECTION
    =================================================================== */
+
+.vin-hero      { text-align: center; margin-bottom: 1.5rem; }
+.vin-hero-icon {
+  width:         3.5rem;
+  height:        3.5rem;
+  background:    linear-gradient(135deg, #059669, #0d9488);
+  border-radius: 1rem;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  margin:        0 auto 1rem;
+  box-shadow:    0 4px 12px rgba(5,150,105,0.3);
+}
+.vin-hero-icon svg { width: 1.75rem; height: 1.75rem; color: white; }
+.vin-hero-title    { font-size: 1.5rem;   font-weight: 700; color: #0f172a; margin-bottom: 0.375rem; }
+.vin-hero-sub      { font-size: 0.9375rem; color: #64748b; }
+
+
+/* ===================================================================
+   8. CONFIRM VEHICLE CARD
+   =================================================================== */
+
+.confirm-vehicle-content {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  padding:        0.5rem 0;
+  text-align:     center;
+}
+.confirm-vehicle-icon {
+  width:         3rem;
+  height:        3rem;
+  background:    #f0fdf4;
+  border:        1.5px solid #bbf7d0;
+  border-radius: 0.875rem;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  margin-bottom: 0.875rem;
+}
+.confirm-vehicle-icon svg  { width: 1.5rem; height: 1.5rem; color: #059669; }
+.confirm-vehicle-label     { font-size: 0.875rem; color: #64748b; margin-bottom: 0.875rem; }
+.confirm-vehicle-box {
+  background:    #f8fafc;
+  border:        1px solid #e2e8f0;
+  border-radius: 0.625rem;
+  padding:       1rem 2rem;
+  margin-bottom: 1.5rem;
+  width:         100%;
+}
+.confirm-vehicle-make    { font-size: 1.5rem;    font-weight: 700; color: #0f172a; }
+.confirm-vehicle-model   { font-size: 1.0625rem; color: #64748b;   margin-top: 0.25rem; }
+.confirm-vehicle-vin     { font-family: monospace; font-size: 0.8125rem; color: #94a3b8; margin-top: 0.375rem; letter-spacing: 0.05em; }
+.confirm-vehicle-actions { display: flex; flex-direction: column; gap: 0.75rem; width: 100%; }
+
+
+/* ===================================================================
+   9. BUTTONS
+   =================================================================== */
+
 .btn {
-  padding: 1rem 1.5rem; border-radius: 0.5rem; font-weight: 600;
-  font-size: 1rem; cursor: pointer; transition: all 0.2s;
-  border: none; text-align: center;
+  padding:       0.8125rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight:   600;
+  font-size:     0.9375rem;
+  cursor:        pointer;
+  transition:    all 0.15s;
+  border:        none;
+  text-align:    center;
+  display:       inline-block;
 }
 .btn:disabled { cursor: not-allowed; opacity: 0.5; }
-.btn-full { width: 100%; }
-.btn-large { padding: 1rem 3rem; font-size: 1.125rem; }
+.btn-full     { width: 100%; }
 
-.btn-primary { background-color: #1f2937; color: white; }
-.btn-primary:hover:not(:disabled) { background-color: #374151; }
+.btn-primary  { background-color: #059669; color: white; }
+.btn-primary:hover:not(:disabled)   { background-color: #047857; }
 
-.btn-secondary { background-color: #4b5563; color: white; }
-.btn-secondary:hover:not(:disabled) { background-color: #6b7280; }
+.btn-secondary { background-color: #334155; color: white; }
+.btn-secondary:hover:not(:disabled) { background-color: #475569; }
 
-.btn-success { background-color: #059669; color: white; }
-.btn-success:hover:not(:disabled) { background-color: #10b981; }
+.btn-success  { background-color: #059669; color: white; }
+.btn-success:hover:not(:disabled)   { background-color: #047857; }
 
-.btn-dark { background-color: #111827; color: white; }
-.btn-dark:hover:not(:disabled) { background-color: #000000; }
+.btn-dark     { background-color: #0f172a; color: white; }
+.btn-dark:hover:not(:disabled)      { background-color: #1e293b; }
 
-.btn-outline { background-color: transparent; border: 2px solid #e5e7eb; color: #374151; }
-.btn-outline:hover:not(:disabled) { border-color: #374151; background-color: #f9fafb; }
+.btn-outline  { background: transparent; border: 1.5px solid #cbd5e1; color: #334155; }
+.btn-outline:hover:not(:disabled)   { border-color: #334155; background-color: #f8fafc; }
 
-.btn-text { background: none; color: #6b7280; text-decoration: underline; }
-.btn-text:hover:not(:disabled) { color: #374151; }
+.btn-text     { background: none; color: #64748b; text-decoration: underline; font-size: 0.875rem; }
+.btn-text:hover:not(:disabled)      { color: #334155; }
 
-.button-group { display: flex; flex-direction: column; gap: 1rem; margin-top: auto; /* Push buttons to bottom if needed */ padding-top: 2rem;}
+/* Vertical button stack used on several flow screens */
+.button-group { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.25rem; }
+
 
 /* ===================================================================
-   6. FORMS & INPUTS
+   10. FORMS & INPUTS
    =================================================================== */
-.form-section {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto; 
-  flex: 1; 
-  display: flex;
+
+.form-section      { width: 100%; flex: 1; display: flex; flex-direction: column; }
+.form-group        { margin-bottom: 1rem; }
+.form-group-stack  { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.25rem; }
+.form-label        { display: block; font-size: 0.875rem; font-weight: 600; color: #374151; margin-bottom: 0.375rem; }
+
+/* Base text input — white bg forced to override autofill */
+.form-input {
+  width:         100%;
+  padding:       0.6875rem 0.875rem;
+  border:        1.5px solid #cbd5e1;
+  border-radius: 0.4375rem;
+  font-size:     0.9375rem;
+  transition:    border-color 0.15s, box-shadow 0.15s;
+  background-color: #ffffff !important;
+  color:            #0f172a !important;
+  -webkit-text-fill-color: #0f172a;
+}
+.form-input::placeholder { color: #94a3b8; -webkit-text-fill-color: #94a3b8; }
+.form-input:focus {
+  outline:          none;
+  border-color:     #059669;
+  box-shadow:       0 0 0 3px rgba(5,150,105,0.12);
+  background-color: #ffffff !important;
+}
+
+/* Variant for inputs on light backgrounds (manual entry screen) */
+.form-input-light {
+  background-color:        #ffffff !important;
+  color:                   #0f172a !important;
+  -webkit-text-fill-color: #0f172a;
+}
+
+/* Monospace VIN input */
+.vin-input {
+  font-family:             monospace;
+  font-size:               1.25rem;
+  letter-spacing:          0.1em;
+  text-align:              center;
+  text-transform:          uppercase;
+  background-color:        #ffffff !important;
+  color:                   #0f172a !important;
+  -webkit-text-fill-color: #0f172a;
+}
+.vin-input::placeholder { color: #94a3b8; -webkit-text-fill-color: #94a3b8; opacity: 1; }
+
+.form-hint           { margin-top: 0.375rem; font-size: 0.75rem; color: #94a3b8; }
+.section-description { text-align: center; color: #64748b; margin-bottom: 1.25rem; font-size: 0.9375rem; }
+.vehicle-display     { text-align: center; padding: 1.5rem; background: #f8fafc; border-radius: 0.5rem; margin-bottom: 1.5rem; border: 1px solid #e2e8f0; }
+.vehicle-name        { font-size: 1.375rem; font-weight: 700; color: #0f172a; }
+.vehicle-model       { font-size: 1rem; color: #64748b; margin-top: 0.25rem; }
+
+
+/* ===================================================================
+   11. TABLES
+   Shared table styles used in Dashboard, History, Results, Settings.
+   =================================================================== */
+
+/* Rounded bordered table container */
+.table-container {
+  border:        1px solid #e2e8f0;
+  border-radius: 0.625rem;
+  overflow:      hidden;
+  margin-bottom: 1.25rem;
+  background:    white;
+}
+.table-scroll { max-height: 400px; overflow-y: auto; }
+
+/* Full-width borderless table inside the container */
+.data-table { width: 100%; border-collapse: collapse; }
+
+/* Standard light header */
+.table-header {
+  background-color: #f8fafc;
+  padding:          0.625rem 1rem;
+  text-align:       left;
+  font-size:        0.6875rem;
+  font-weight:      700;
+  color:            #64748b;
+  text-transform:   uppercase;
+  letter-spacing:   0.06em;
+}
+
+/* Dark header variant — used for the pathway step table */
+.table-header-dark .table-header { background-color: #1e293b; color: #e2e8f0; }
+
+/* Sticky positioning for scrollable table headers */
+.sticky-header { position: sticky; top: 0; z-index: 10; }
+
+/* Body rows */
+.table-row       { border-top: 1px solid #f1f5f9; }
+.table-row:hover { background-color: #f8fafc; }
+.table-cell      { padding: 0.6875rem 1rem; font-size: 0.875rem; color: #0f172a; }
+.text-right      { text-align: right; }
+.table-value     { font-weight: 600; }
+
+/* Inline number input for editable table cells (material composition) */
+.table-input {
+  width:         100px;
+  padding:       0.25rem 0.5rem;
+  border:        1px solid #cbd5e1;
+  border-radius: 0.25rem;
+  text-align:    right;
+  background:    white;
+  color:         #0f172a;
+}
+
+/* Pathway sequence number cell — blue accent */
+.pathway-seq     { color: #2563eb; font-weight: 700; }
+.profit-positive { color: #059669; font-weight: 700; }
+.profit-negative { color: #dc2626; font-weight: 700; }
+
+
+/* ===================================================================
+   12. ALERTS & ERRORS
+   =================================================================== */
+
+.error-message {
+  padding:       0.875rem 1rem;
+  background:    #fef2f2;
+  border:        1px solid #fecaca;
+  border-radius: 0.375rem;
+  color:         #b91c1c;
+  font-size:     0.875rem;
+}
+
+.alert {
+  padding:       0.875rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.25rem;
+  font-size:     0.875rem;
+}
+.alert-warning { background: #fffbeb; border: 1px solid #fde68a; color: #92400e; }
+.alert-info    { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+.alert-flex    { display: flex; align-items: flex-start; gap: 0.625rem; }
+.alert-icon    { width: 1.125rem; height: 1.125rem; flex-shrink: 0; margin-top: 1px; }
+
+
+/* ===================================================================
+   13. LOADING VISUALISATION
+   =================================================================== */
+
+.loading-viz {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  padding:        1rem 0;
+  width:          100%;
+  max-width:      420px;
+  text-align:     center;
+}
+
+/* Rings container */
+.loading-rings { position: relative; width: 120px; height: 120px; margin-bottom: 2rem; }
+
+/* Base ring: positioned absolute, transparent borders except the top */
+.lring {
+  position:      absolute;
+  border-radius: 50%;
+  border:        3px solid transparent;
+}
+
+/* Three rings with different radii and animation speeds/directions */
+.lring-1 { inset: 0;    border-top-color: #059669;             animation: spin 1.2s linear infinite; }
+.lring-2 { inset: 14px; border-top-color: #0d9488; border-right-color: #0d9488; animation: spin 1.8s linear infinite reverse; }
+.lring-3 { inset: 28px; border-top-color: #6366f1;             animation: spin 2.4s linear infinite; }
+
+/* Centre circle with recycling icon */
+.lring-core {
+  position:      absolute;
+  inset:         42px;
+  background:    #f0fdf4;
+  border-radius: 50%;
+  display:       flex;
+  align-items:   center;
+  justify-content: center;
+  border:        1px solid #bbf7d0;
+}
+.lring-icon { width: 1.375rem; height: 1.375rem; color: #059669; animation: spin 3s linear infinite; }
+
+/* Single rotation keyframe used by all rings */
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-title    { font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 0.375rem; }
+.loading-subtitle { font-size: 0.875rem; color: #64748b; margin-bottom: 1.5rem; }
+
+/* Stage label list */
+.loading-stages { display: flex; flex-direction: column; gap: 0.5rem; width: 100%; }
+
+/* Individual stage: fades and slides in from the left */
+.loading-stage {
+  display:       flex;
+  align-items:   center;
+  gap:           0.625rem;
+  padding:       0.5rem 0.875rem;
+  background:    white;
+  border:        1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  font-size:     0.875rem;
+  color:         #64748b;
+  opacity:       0;
+  animation:     fadeSlideIn 0.4s ease forwards;
+}
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Pulsing dot inside each stage label */
+.stage-dot {
+  width:         8px;
+  height:        8px;
+  border-radius: 50%;
+  background:    #cbd5e1;
+  flex-shrink:   0;
+  animation:     pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { background: #cbd5e1; transform: scale(1); }
+  50%      { background: #059669; transform: scale(1.3); }
+}
+.stage-label { color: #374151; }
+
+
+/* ===================================================================
+   14. OPTION CARDS & DIVIDER
+   Used on material estimation method selection.
+   =================================================================== */
+
+.option-group { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 0.5rem; }
+.option-card  { padding: 1.5rem; border: 2px solid #e2e8f0; border-radius: 0.625rem; background: white; cursor: pointer; transition: all 0.15s; text-align: center; }
+.option-ai    { border-color: #059669; background: #f0fdf4; }
+.option-ai:hover { background: #dcfce7; }
+.option-title { font-size: 1rem; font-weight: 700; color: #0f172a; }
+
+/* "OR" divider between AI and manual options */
+.divider { display: flex; align-items: center; color: #94a3b8; font-size: 0.875rem; }
+.divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #e2e8f0; }
+.divider span { padding: 0 0.875rem; }
+
+
+/* ===================================================================
+   15. DASHBOARD
+   =================================================================== */
+
+.dashboard-header {
+  display:         flex;
+  align-items:     flex-start;
+  justify-content: space-between;
+  gap:             1rem;
+  margin-bottom:   1.25rem;
+  flex-wrap:       wrap;
+}
+
+/* "Today" green badge next to date subtitle */
+.today-badge {
+  display:        inline-block;
+  background:     #dcfce7;
+  color:          #166534;
+  font-size:      0.6875rem;
+  font-weight:    700;
+  padding:        0.125rem 0.5rem;
+  border-radius:  9999px;
+  margin-left:    0.5rem;
+  vertical-align: middle;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Date picker label + input group (top-right of dashboard) */
+.date-picker-wrapper { display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem; }
+.date-picker-label   { font-size: 0.6875rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
+.dashboard-date-picker {
+  padding:       0.4375rem 0.75rem;
+  border:        1.5px solid #cbd5e1;
+  border-radius: 0.4375rem;
+  font-size:     0.875rem;
+  background:    white;
+  color:         #0f172a;
+  cursor:        pointer;
+  transition:    border-color 0.15s;
+}
+.dashboard-date-picker:focus { outline: none; border-color: #059669; box-shadow: 0 0 0 3px rgba(5,150,105,0.1); }
+
+/* Four-column KPI tile grid */
+.dashboard-kpi-row {
+  display:               grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:                   0.875rem;
+  margin-bottom:         1.25rem;
+}
+
+/* Base KPI card — left-border accent colour changes per variant */
+.dashboard-kpi-card  { background: white; border: 1px solid #e2e8f0; border-radius: 0.625rem; padding: 1.125rem 1.25rem; border-left: 4px solid #e2e8f0; }
+.dashboard-kpi-blue  { border-left-color: #3b82f6; }
+.dashboard-kpi-green { border-left-color: #059669; }
+.dashboard-kpi-slate { border-left-color: #94a3b8; }
+.dashboard-kpi-label { font-size: 0.75rem;  color: #64748b; margin-bottom: 0.375rem; font-weight: 500; }
+.dashboard-kpi-value { font-size: 1.875rem; font-weight: 700; line-height: 1.1; margin-bottom: 0.25rem; }
+.dashboard-kpi-sub   { font-size: 0.6875rem; color: #94a3b8; }
+
+.dashboard-action-row    { margin-bottom: 1.25rem; }
+.dashboard-new-btn       { display: inline-flex; align-items: center; padding: 0.6875rem 1.125rem; }
+.dashboard-section       { margin-bottom: 1.25rem; }
+.dashboard-section-title { font-size: 1rem; font-weight: 700; color: #0f172a; margin-bottom: 0.75rem; }
+.dashboard-empty-state   { padding: 2.5rem 0; text-align: center; }
+.dashboard-empty         { color: #64748b; font-size: 0.9375rem; }
+.dashboard-empty-sub     { color: #94a3b8; font-size: 0.8125rem; margin-top: 0.375rem; }
+
+/* Row hover tint for dashboard records */
+.dashboard-record-row:hover { background-color: #f0f9ff !important; }
+
+/* Cell typography within activity table */
+.record-vehicle   { font-weight: 600; color: #0f172a; display: block; }
+.record-vin       { font-size: 0.75rem; color: #94a3b8; font-family: monospace; display: block; margin-top: 0.125rem; }
+.record-vin-large { font-family: monospace; font-size: 0.8125rem; color: #64748b; }
+.record-date      { color: #64748b; font-size: 0.8125rem; white-space: nowrap; }
+.record-time      { color: #64748b; font-size: 0.8125rem; }
+.record-view-link { color: #2563eb; font-size: 0.8125rem; font-weight: 600; }
+
+
+/* ===================================================================
+   16. VEHICLE HISTORY PAGE
+   =================================================================== */
+
+.history-header-row {
+  display:         flex;
+  align-items:     flex-end;
+  justify-content: space-between;
+  gap:             1.25rem;
+  flex-wrap:       wrap;
+  margin-bottom:   1.25rem;
+}
+
+/* Search input */
+.history-search {
+  padding:       0.5rem 0.875rem;
+  border:        1.5px solid #cbd5e1;
+  border-radius: 0.4375rem;
+  font-size:     0.875rem;
+  width:         280px;
+  background:    white;
+  color:         #0f172a;
+  transition:    border-color 0.15s;
+}
+.history-search:focus { outline: none; border-color: #059669; box-shadow: 0 0 0 3px rgba(5,150,105,0.1); }
+.history-search::placeholder { color: #94a3b8; }
+
+
+/* ===================================================================
+   17. RESULTS PAGE
+   =================================================================== */
+
+/* Four-column KPI grid — same structure as dashboard but top-border accent */
+.results-kpi-row {
+  display:               grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:                   0.875rem;
+  margin-bottom:         1.125rem;
+}
+.kpi-card  { background: white; border: 1px solid #e2e8f0; border-radius: 0.625rem; padding: 1rem 1.125rem; border-top: 3px solid #e2e8f0; }
+.kpi-label { font-size: 0.75rem;  color: #64748b; margin-bottom: 0.375rem; font-weight: 500; }
+.kpi-value { font-size: 1.75rem;  font-weight: 700; line-height: 1.1; margin-bottom: 0.25rem; }
+.kpi-sub   { font-size: 0.6875rem; color: #94a3b8; line-height: 1.4; }
+
+/* Two-column chart row below the pathway table */
+.results-charts-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem; margin-bottom: 1.25rem; }
+.results-chart-card  { border: 1px solid #e2e8f0; border-radius: 0.625rem; padding: 1rem; background: white; min-width: 0; }
+.results-chart-title { font-size: 0.8125rem; font-weight: 600; color: #374151; margin-bottom: 0.625rem; }
+
+
+/* ===================================================================
+   18. PATHWAY EXPLANATION ROWS
+   Expandable rows for each step in the pathway table.
+   =================================================================== */
+
+.pathway-main-row:hover { background-color: #f0f9ff !important; }
+.pathway-main-row td:last-child { padding-right: 1rem; vertical-align: middle; }
+
+/* Explanation container row — blue left-border accent */
+.explanation-row  { background-color: #f8fafc; border-top: none !important; }
+.explanation-cell { padding: 0 !important; border-bottom: 1px solid #e2e8f0; }
+.explanation-content {
+  padding:          0.75rem 1.25rem 0.875rem 3.5rem;
+  border-left:      3px solid #3b82f6;
+  margin:           0 0.75rem;
+  background-color: #eff6ff;
+  border-radius:    0 0 0.25rem 0.25rem;
+}
+.explanation-label {
+  display:        block;
+  font-size:      0.6875rem;
+  font-weight:    700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color:          #3b82f6;
+  margin-bottom:  0.3rem;
+}
+.explanation-text { font-size: 0.8125rem; color: #374151; line-height: 1.6; margin: 0; }
+
+
+/* ===================================================================
+   19. CONDITION ASSESSMENT
+   =================================================================== */
+
+/* Accordion card */
+.condition-section         { border: 1px solid #e2e8f0; border-radius: 0.5rem; overflow: hidden; margin-bottom: 0.625rem; background: white; }
+.condition-section-header  {
+  width:         100%;
+  display:       flex;
+  align-items:   center;
+  justify-content: space-between;
+  padding:       0.75rem 1rem;
+  background:    #f8fafc;
+  border:        none;
+  cursor:        pointer;
+  font-size:     0.875rem;
+  font-weight:   600;
+  color:         #374151;
+  transition:    background-color 0.12s;
+  text-align:    left;
+}
+.condition-section-header:hover { background: #f1f5f9; }
+.condition-section-title   { display: flex; align-items: center; gap: 0.5rem; }
+.condition-section-icon    { font-size: 0.9375rem; }
+.condition-section-body    { padding: 0.375rem 1rem 0.875rem; background: white; display: flex; flex-direction: column; }
+
+/* Flag row — label group on left, control on right */
+.condition-flag-row            { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.5625rem 0; border-bottom: 1px solid #f1f5f9; }
+.condition-flag-row:last-child { border-bottom: none; }
+.condition-flag-label-group    { display: flex; flex-direction: column; gap: 0.1rem; flex: 1; min-width: 0; }
+.condition-flag-label          { font-size: 0.8125rem; font-weight: 500; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.condition-flag-note           { font-size: 0.6875rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* Segmented three-option control */
+.segmented-control { display: flex; border: 1.5px solid #cbd5e1; border-radius: 0.4375rem; overflow: hidden; flex-shrink: 0; }
+.segmented-btn     { padding: 0.3125rem 0.625rem; background: white; border: none; border-right: 1px solid #e2e8f0; font-size: 0.75rem; font-weight: 500; color: #64748b; cursor: pointer; white-space: nowrap; transition: background-color 0.12s, color 0.12s; }
+.segmented-btn:last-child { border-right: none; }
+.segmented-btn:hover      { background: #f0fdf4; color: #059669; }
+.segmented-btn.active     { background-color: #059669; color: white; font-weight: 600; }
+
+/* Yes / No toggle button */
+.toggle-flag-btn              { min-width: 3.125rem; padding: 0.3125rem 0.625rem; border-radius: 0.375rem; border: 1.5px solid #cbd5e1; background: white; font-size: 0.75rem; font-weight: 600; color: #64748b; cursor: pointer; transition: all 0.12s; flex-shrink: 0; text-align: center; }
+.toggle-flag-btn:hover        { border-color: #94a3b8; background: #f8fafc; }
+.toggle-flag-btn.active       { background: #059669; border-color: #059669; color: white; }
+.toggle-flag-btn.active:hover { background: #047857; border-color: #047857; }
+
+/* Integer count stepper */
+.count-stepper { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
+.count-btn     { width: 1.875rem; height: 1.875rem; border-radius: 0.375rem; border: 1.5px solid #cbd5e1; background: white; font-size: 1rem; font-weight: 600; color: #374151; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.12s; line-height: 1; }
+.count-btn:hover:not(:disabled) { background: #f1f5f9; }
+.count-btn:disabled             { opacity: 0.35; cursor: not-allowed; }
+.count-value                    { font-size: 0.9375rem; font-weight: 700; color: #0f172a; min-width: 1.25rem; text-align: center; }
+
+
+/* ===================================================================
+   20. STATIC PAGES
+   =================================================================== */
+
+.static-page {
+  background:    white;
+  border:        1px solid #e2e8f0;
+  border-radius: 0.625rem;
+  padding:       1.75rem 2rem;
+  max-width:     760px;
+  margin:        0 auto;
+  line-height:   1.75;
+  color:         #374151;
+  font-size:     0.9375rem;
+}
+.static-last-updated    { font-size: 0.8125rem; color: #94a3b8; margin-bottom: 1.5rem; }
+.static-section-heading { font-size: 1.0625rem; font-weight: 700; color: #0f172a; margin-top: 1.5rem; margin-bottom: 0.625rem; }
+.static-page p     { margin-bottom: 0.875rem; }
+.static-page ul    { margin: 0.5rem 0 0.875rem 1.5rem; }
+.static-page ul li { margin-bottom: 0.375rem; }
+.static-page code  { background: #f1f5f9; padding: 0.125rem 0.375rem; border-radius: 0.25rem; font-size: 0.875rem; color: #0f172a; }
+
+/* FAQ item cards */
+.faq-item { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.5rem; padding: 0.875rem 1rem; margin-bottom: 0.625rem; }
+.faq-q    { font-weight: 700; color: #0f172a; margin-bottom: 0.375rem; font-size: 0.9375rem; }
+.faq-a    { color: #4b5563; margin-bottom: 0; font-size: 0.875rem; line-height: 1.65; }
+
+
+/* ===================================================================
+   21. LOGO IMAGES (Navbar)
+   =================================================================== */
+
+.navbar-logo-img { height: 2.25rem;  width: auto; display: block; }
+.navbar-text-img { height: 1.375rem; width: auto; display: block; }
+
+
+/* ===================================================================
+   22. UTILITY CLASSES
+   =================================================================== */
+
+.opacity-50          { opacity: 0.5; }
+.pointer-events-none { pointer-events: none; }
+.grayscale           { filter: grayscale(100%); }
+
+
+/* ===================================================================
+   23. SETTINGS PAGE 
+   =================================================================== */
+
+/* ── Explainer info card at the top of Settings ──────────────── */
+
+/* Container for the explanatory info banner */
+.settings-explainer-card {
+  display:       flex;
+  gap:           0.875rem;
+  background:    #f0f9ff;              /* sky-50 — soft informational blue tint */
+  border:        1px solid #bae6fd;   /* sky-200 */
+  border-radius: 0.625rem;
+  padding:       1rem 1.125rem;
+  margin-bottom: 1.125rem;
+  align-items:   flex-start;
+}
+
+/* Circular icon box inside the explainer */
+.settings-explainer-icon {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  width:           2.25rem;
+  height:          2.25rem;
+  background:      #e0f2fe;           /* sky-100 */
+  border-radius:   0.5rem;
+  flex-shrink:     0;
+  color:           #0369a1;           /* sky-700 */
+  margin-top:      0.125rem;
+}
+
+/* Text block inside the explainer */
+.settings-explainer-text  { flex: 1; font-size: 0.875rem; color: #374151; line-height: 1.65; }
+.settings-explainer-heading { font-weight: 700; color: #0f172a; margin-bottom: 0.375rem; }
+
+/* ── "Custom values active" warning badge ─────────────────────── */
+
+/* Amber warning strip shown when any value differs from defaults */
+.settings-custom-badge {
+  display:       flex;
+  align-items:   center;
+  gap:           0.375rem;
+  background:    #fffbeb;             /* amber-50 */
+  border:        1px solid #fde68a;  /* amber-200 */
+  border-radius: 0.5rem;
+  padding:       0.625rem 0.875rem;
+  font-size:     0.8125rem;
+  color:         #92400e;            /* amber-800 */
+  font-weight:   500;
+  margin-bottom: 1rem;
+}
+
+/* ── Section card (shared container for Rate and Durations) ───── */
+
+/* Rounded white card that wraps each settings section */
+.settings-section-card {
+  background:    white;
+  border:        1px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding:       1.25rem 1.5rem;
+  box-shadow:    0 1px 3px rgba(0,0,0,0.05);
+}
+
+/* Header row inside a section card: title+subtitle on left, pill on right */
+.settings-section-header {
+  display:         flex;
+  align-items:     flex-start;
+  justify-content: space-between;
+  margin-bottom:   0.875rem;
+  gap:             1rem;
+}
+
+/* Section heading text */
+.settings-section-title { font-size: 1rem; font-weight: 700; color: #0f172a; margin-bottom: 0.25rem; }
+
+/* Section description text below the title */
+.settings-section-sub { font-size: 0.8125rem; color: #64748b; line-height: 1.5; }
+
+/* ── "custom" pill badge ────────────────────────────────────────── */
+
+/* Small inline pill shown next to modified values */
+.settings-modified-pill {
+  display:        inline-block;
+  background:     #dcfce7;           /* green-100 */
+  color:          #166534;           /* green-800 */
+  font-size:      0.625rem;
+  font-weight:    700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  padding:        0.1rem 0.45rem;
+  border-radius:  9999px;
+  white-space:    nowrap;
+  vertical-align: middle;
+}
+
+/* ── Section A: Hourly Labour Rate ─────────────────────────────── */
+
+/* Flex row containing the rate input group and the hint block */
+.settings-rate-row {
+  display:     flex;
+  align-items: center;
+  gap:         1.5rem;
+  flex-wrap:   wrap;
+  margin-top:  0.25rem;
+}
+
+/* Inline group: $ prefix + number input + "/hr" suffix */
+.settings-rate-input-group {
+  display:     flex;
+  align-items: center;
+  gap:         0.375rem;
+}
+
+/* Dollar-sign prefix label */
+.settings-dollar-sign {
+  font-size:   1.125rem;
+  font-weight: 600;
+  color:       #374151;
+  flex-shrink: 0;
+}
+
+/* The actual hourly rate number input */
+.settings-rate-input {
+  width:         110px;
+  padding:       0.5rem 0.625rem;
+  border:        1.5px solid #cbd5e1;
+  border-radius: 0.4375rem;
+  font-size:     1.25rem;
+  font-weight:   600;
+  color:         #0f172a;
+  background:    white;
+  text-align:    right;
+  transition:    border-color 0.15s, box-shadow 0.15s;
+  /* Remove browser default number spinner arrows for a cleaner look */
+  -moz-appearance:    textfield;
+}
+.settings-rate-input::-webkit-outer-spin-button,
+.settings-rate-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.settings-rate-input:focus {
+  outline:      none;
+  border-color: #059669;
+  box-shadow:   0 0 0 3px rgba(5,150,105,0.12);
+}
+
+/* Unit suffix label shared between rate and time inputs */
+.settings-unit-label {
+  font-size:   0.8125rem;
+  color:       #64748b;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+/* Hint block to the right of the rate input: "At this rate, a 60-min job costs …" */
+.settings-rate-hint-block {
+  background:    #f8fafc;
+  border:        1px solid #e2e8f0;
+  border-radius: 0.5rem;
+  padding:       0.5rem 0.875rem;
+}
+.settings-rate-hint-label { font-size: 0.6875rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 0.125rem; }
+.settings-rate-hint-value { font-size: 0.875rem; color: #374151; }
+
+/* ── Section B: Step Durations table ───────────────────────────── */
+
+/* Highlight for table rows where the time has been customised */
+.settings-row-modified { background-color: #f0fdf4 !important; }
+.settings-row-modified:hover { background-color: #dcfce7 !important; }
+
+/* Inline group: time number input + "min" suffix */
+.settings-time-cell {
+  display:         flex;
+  align-items:     center;
+  justify-content: flex-end;
+  gap:             0.375rem;
+}
+
+/* The actual action-time number input */
+.settings-time-input {
+  width:         80px;
+  padding:       0.375rem 0.5rem;
+  border:        1.5px solid #cbd5e1;
+  border-radius: 0.375rem;
+  font-size:     0.875rem;
+  font-weight:   500;
+  color:         #0f172a;
+  background:    white;
+  text-align:    right;
+  transition:    border-color 0.15s, box-shadow 0.15s;
+  /* Remove browser spinner arrows */
+  -moz-appearance: textfield;
+}
+.settings-time-input::-webkit-outer-spin-button,
+.settings-time-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+.settings-time-input:focus {
+  outline:      none;
+  border-color: #059669;
+  box-shadow:   0 0 0 2px rgba(5,150,105,0.12);
+}
+
+/* Green border applied to any input (rate or time) with a custom value */
+.settings-input-modified {
+  border-color: #059669 !important;   /* green-600 — signals active override */
+  background:   #f0fdf4 !important;   /* green-50 tint */
+}
+.settings-input-modified:focus {
+  border-color: #047857 !important;
+  box-shadow:   0 0 0 3px rgba(5,150,105,0.15) !important;
+}
+
+/* ── Settings action button row ─────────────────────────────────── */
+
+/* Row at the bottom of Settings with Reset and Save buttons */
+.settings-actions {
+  display:         flex;
+  align-items:     center;
+  justify-content: flex-end;
+  gap:             0.75rem;
+  margin-top:      1.25rem;
+  padding-top:     1rem;
+  border-top:      1px solid #f1f5f9;
+}
+
+/* "Save Changes" button when the brief "Saved!" confirmation is active */
+.settings-saved-btn {
+  background-color: #047857 !important;  /* deeper green to signal success */
+  cursor:           default;
+}
+.settings-saved-btn:hover { background-color: #047857 !important; }
+
+/* ===================================================================
+   24. AUTH PAGE (Smart Tech Grid & Dark Ambient Theme)
+   =================================================================== */
+
+/* Full page container */
+.b-page {
+  min-height:      100vh;
+  width:           100vw;
+  background-color: #0b1121; /* Deepest slate */
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  justify-content: center;
+  position:        relative;
+  overflow:        hidden;
+  padding:         2rem 1rem;
+}
+
+/* Massive abstract glows to fill the empty corners */
+.b-page::before,
+.b-page::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px); /* Creates the soft, ambient lighting */
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Top left green glow */
+.b-page::before {
+  width: 60vw;
+  height: 60vh;
+  background: rgba(5, 150, 105, 0.12); 
+  top: -10vh;
+  left: -15vw;
+}
+
+/* Bottom right deep blue glow */
+.b-page::after {
+  width: 50vw;
+  height: 50vh;
+  background: rgba(30, 58, 138, 0.18);
+  bottom: -10vh;
+  right: -10vw;
+}
+
+
+
+/* The single unified card - Dramatically increased shadow for 3D depth */
+.b-card {
+  position:      relative;
+  z-index:       1;
+  width:         100%;
+  max-width:     400px;
+  border-radius: 1.125rem;
+  /* Heavy, multi-layered shadows to float the card above the dark background */
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.4),
+    0 35px 80px -15px rgba(0, 0, 0, 0.7);
+  overflow:      hidden;
+  border:        1px solid rgba(255, 255, 255, 0.1); /* Crisp edge against dark bg */
+}
+
+/* ── Dark header section ──────────────────────────────────────────── */
+
+.b-header {
+  position:        relative;
+  background-color: #0f172a;
+  padding:         2rem 2rem 1.75rem;
+  display:         flex;
+  flex-direction:  column;
+  align-items:     center;
+  overflow:        hidden;
+}
+
+/* Inner green glow inside the header */
+.b-header-glow {
+  position:   absolute;
+  top:        -60px;
+  left:       50%;
+  transform:  translateX(-50%);
+  width:      320px;
+  height:     200px;
+  background: radial-gradient(ellipse, rgba(5,150,105,0.22) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Logo row */
+.b-brand {
+  position:      relative;
+  z-index:       1;
+  display:       flex;
+  align-items:   center;
+  gap:           0.75rem;
+  margin-bottom: 1.25rem;
+}
+.b-brand-icon { height: 2.75rem; width: auto; }
+.b-brand-text { height: 1.625rem; width: auto; }
+
+/* "Recycle Wisely" */
+.b-tagline {
+  position:       relative;
+  z-index:        1;
+  font-size:      1rem;
+  font-style:     italic;
+  font-weight:    300;
+  color:          #94a3b8;
+  letter-spacing: 0.04em;
+  margin-bottom:  0.625rem;
+}
+
+/* "Smart Vehicle Recycling" */
+.b-smart {
+  position:        relative;
+  z-index:         1;
+  display:         inline-block;
+  font-size:       0.6875rem;
+  font-weight:     700;
+  text-transform:  uppercase;
+  letter-spacing:  0.12em;
+  color:           #059669;
+  background:      rgba(5,150,105,0.12);
+  border:          1px solid rgba(5,150,105,0.22);
+  border-radius:   9999px;
+  padding:         0.25rem 0.875rem;
+}
+
+/* ── White form section ───────────────────────────────────────────── */
+
+.b-body {
+  background: white;
+  padding:    2rem;
+}
+
+/* Bottom credit - Adjusted contrast for the new dark background */
+.b-credit {
+  position:   relative;
+  z-index:    1;
+  margin-top: 1.5rem;
+  font-size:  0.75rem;
+  color:      #64748b; 
+}
+
+/* ── Card internals (shared) ─────────────────────────── */
+
+.auth-subtitle {
+  text-align:    center;
+  color:         #64748b;
+  font-size:     0.875rem;
+  margin-bottom: 1.25rem;
+}
+.auth-mode-toggle {
+  display:       flex;
+  border:        1.5px solid #cbd5e1;
+  border-radius: 0.5rem;
+  overflow:      hidden;
+  margin-bottom: 1.25rem;
+}
+.auth-mode-btn {
+  flex:        1;
+  padding:     0.5rem;
+  background:  white;
+  border:      none;
+  font-size:   0.875rem;
+  font-weight: 500;
+  color:       #64748b;
+  cursor:      pointer;
+  transition:  background-color 0.15s, color 0.15s;
+}
+.auth-mode-btn:first-child { border-right: 1px solid #e2e8f0; }
+.auth-mode-btn.active      { background: #059669; color: white; font-weight: 600; }
+
+.auth-error {
+  background:    #fef2f2;
+  border:        1px solid #fecaca;
+  border-radius: 0.375rem;
+  color:         #b91c1c;
+  font-size:     0.8125rem;
+  padding:       0.625rem 0.875rem;
+  margin-bottom: 1rem;
+}
+.auth-field  { margin-bottom: 1rem; }
+.auth-label  { display: block; font-size: 0.8125rem; font-weight: 600; color: #374151; margin-bottom: 0.375rem; }
+.auth-input  {
+  width:         100%;
+  padding:       0.6875rem 0.875rem;
+  border:        1.5px solid #cbd5e1;
+  border-radius: 0.4375rem;
+  font-size:     0.9375rem;
+  background:    white;
+  color:         #0f172a;
+  transition:    border-color 0.15s, box-shadow 0.15s;
+}
+.auth-input:focus {
+  outline:      none;
+  border-color: #059669;
+  box-shadow:   0 0 0 3px rgba(5,150,105,0.12);
+}
+.auth-role-group {
+  display:       flex;
+  border:        1.5px solid #cbd5e1;
+  border-radius: 0.4375rem;
+  overflow:      hidden;
+}
+.auth-role-btn {
+  flex: 1; padding: 0.5rem; background: white; border: none;
+  font-size: 0.8125rem; font-weight: 500; color: #64748b;
+  cursor: pointer; transition: background-color 0.15s, color 0.15s;
+}
+.auth-role-btn:first-child { border-right: 1px solid #e2e8f0; }
+.auth-role-btn.active      { background: #059669; color: white; font-weight: 600; }
+.auth-role-hint { font-size: 0.75rem; color: #94a3b8; margin-top: 0.375rem; }
+.auth-submit-btn {
+  width:         100%;
+  padding:       0.8125rem;
+  background:    #059669;
+  color:         white;
+  border:        none;
+  border-radius: 0.5rem;
+  font-size:     0.9375rem;
+  font-weight:   600;
+  cursor:        pointer;
+  transition:    background-color 0.15s;
+  margin-top:    0.5rem;
+}
+.auth-submit-btn:hover { background: #047857; }
+
+/* ===================================================================
+   25. COLLAPSIBLE SIDEBAR
+   =================================================================== */
+
+/* Collapsed width — .app-content expands automatically via flex: 1 */
+.app-sidebar--collapsed {
+  width:     64px;
+  min-width: 64px;
+}
+
+/* Center icons when collapsed */
+.app-sidebar--collapsed .sidebar-item {
+  justify-content: center;
+  padding:         0.625rem 0;
+}
+.app-sidebar--collapsed .sidebar-user-card {
+  justify-content: center;
+}
+.app-sidebar--collapsed .sidebar-collapse-btn {
+  justify-content: center;
+}
+
+/* Sidebar footer: holds help card + user info at the bottom */
+.sidebar-footer {
+  display:        flex;
   flex-direction: column;
 }
 
-.form-group { margin-bottom: 1.5rem; }
-.form-group-stack { display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
-.form-label { display: block; font-size: 0.875rem; font-weight: 500; color: #374151; margin-bottom: 0.5rem; }
-
-.form-input {
-  width: 100%; padding: 0.75rem 1rem;
-  border: 1px solid #d1d5db; border-radius: 0.375rem;
-  font-size: 1rem; transition: border-color 0.2s;
+/* Collapse / expand toggle button */
+.sidebar-collapse-btn {
+  width:           100%;
+  display:         flex;
+  align-items:     center;
+  justify-content: flex-start;
+  padding:         0.5rem 0.75rem;
+  background:      none;
+  border:          none;
+  border-top:      1px solid rgba(255,255,255,0.06);
+  color:           #475569;
+  cursor:          pointer;
+  font-size:       0.75rem;
+  transition:      color 0.15s, background-color 0.15s;
+  margin-top:      0.25rem;
+  border-radius:   0 0 0 0;
 }
-.form-input:focus { outline: none; border-color: #1f2937; box-shadow: 0 0 0 3px rgba(31, 41, 55, 0.1); }
-.vin-input { font-family: monospace; font-size: 1.25rem; letter-spacing: 0.1em; text-align: center; text-transform: uppercase; }
-.form-hint { margin-top: 0.5rem; font-size: 0.75rem; color: #6b7280; }
+.sidebar-collapse-btn:hover {
+  color:            #94a3b8;
+  background-color: rgba(255,255,255,0.05);
+}
+
+/* User info strip */
+.sidebar-user-info {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  padding:    0.625rem 0.75rem;
+}
+.sidebar-user-card {
+  display:     flex;
+  align-items: center;
+  gap:         0.5rem;
+}
+
+/* Avatar circle: first letter of the user's name */
+.sidebar-user-avatar {
+  width:            2rem;
+  height:           2rem;
+  background:       #059669;
+  border-radius:    50%;
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  color:            white;
+  font-size:        0.75rem;
+  font-weight:      700;
+  flex-shrink:      0;
+}
+
+/* Name and role text — hidden in collapsed mode via conditional render */
+.sidebar-user-details { flex: 1; min-width: 0; }
+.sidebar-user-name {
+  font-size:     0.8125rem;
+  font-weight:   600;
+  color:         #e2e8f0;
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
+.sidebar-user-role {
+  font-size:      0.6875rem;
+  color:          #64748b;
+  text-transform: capitalize;
+}
+
+/* Logout icon button */
+.sidebar-logout-btn {
+  display:     flex;
+  align-items: center;
+  background:  none;
+  border:      none;
+  color:       #64748b;
+  cursor:      pointer;
+  padding:     0.25rem;
+  border-radius: 0.25rem;
+  flex-shrink: 0;
+  transition:  color 0.15s;
+  margin-left: auto;
+}
+.sidebar-logout-btn:hover { color: #dc2626; }
+
 
 /* ===================================================================
-   7. TABLES
+   26. VIN VALIDATION
    =================================================================== */
-.table-container { border: 1px solid #e5e7eb; border-radius: 0.5rem; overflow: hidden; margin-bottom: 2rem; }
-.table-scroll { max-height: 400px; overflow-y: auto; }
-.data-table { width: 100%; border-collapse: collapse; }
-.table-header { background-color: #f9fafb; padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; }
-.table-header-dark .table-header { background-color: #1f2937; color: white; }
-.sticky-header { position: sticky; top: 0; z-index: 10; }
-.table-row { border-top: 1px solid #e5e7eb; }
-.table-row:hover { background-color: #f9fafb; }
-.table-cell { padding: 0.75rem 1rem; font-size: 0.875rem; color: #111827; }
-.text-right { text-align: right; }
-.table-value { font-weight: 600; }
-.table-input { width: 100px; padding: 0.25rem 0.5rem; border: 1px solid #d1d5db; border-radius: 0.25rem; text-align: right; }
-.pathway-seq { color: #3b82f6; font-weight: 600; }
-.profit-positive { color: #059669; font-weight: 600; }
-.profit-negative { color: #dc2626; font-weight: 600; }
-.profit-summary { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem; background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.5rem; margin-bottom: 2rem; }
-.profit-label { font-size: 1.125rem; color: #166534; }
-.profit-value { font-size: 1.5rem; font-weight: 700; color: #15803d; }
+
+/* Green border when exactly 17 valid characters are entered */
+.vin-input.vin-valid {
+  border-color: #059669 !important;
+  box-shadow:   0 0 0 3px rgba(5,150,105,0.12) !important;
+}
+
+/* Character counter row below the VIN input */
+.vin-counter {
+  display:     flex;
+  align-items: center;
+  gap:         0.375rem;
+  margin-top:  0.375rem;
+  font-size:   0.75rem;
+}
+
+.vin-counter-text    { color: #94a3b8; }
+.vin-counter-valid   { color: #059669; font-weight: 600; }
+.vin-counter-invalid { color: #94a3b8; }
+
 
 /* ===================================================================
-   8. ALERTS & MESSAGES
+   27. BACK BUTTON — CONSISTENT POSITIONING
    =================================================================== */
-.error-message { margin-top: 1rem; padding: 1rem; background-color: #fee2e2; border: 1px solid #fecaca; border-radius: 0.375rem; color: #b91c1c; text-align: center; }
-.alert { padding: 1rem; border-radius: 0.375rem; margin-bottom: 1.5rem; font-size: 0.875rem; }
-.alert-warning { background-color: #fffbeb; border: 1px solid #fcd34d; color: #92400e; }
-.alert-info { background-color: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
-.alert-flex { display: flex; align-items: flex-start; gap: 0.75rem; }
-.alert-icon { width: 1.25rem; height: 1.25rem; flex-shrink: 0; }
-.section-description { text-align: center; color: #4b5563; margin-bottom: 2rem; }
-.vehicle-display { text-align: center; padding: 2rem; background-color: #f9fafb; border-radius: 0.5rem; margin-bottom: 2rem; }
-.vehicle-name { font-size: 1.5rem; font-weight: 700; color: #111827; }
-.vehicle-model { font-size: 1.125rem; color: #6b7280; margin-top: 0.25rem; }
 
-/* ===================================================================
-   9. OPTIONS & LOADING
-   =================================================================== */
-.option-group { display: flex; flex-direction: column; gap: 1.5rem; }
-.option-card { padding: 2rem; border: 2px solid #e5e7eb; border-radius: 0.5rem; background: white; cursor: pointer; transition: all 0.2s; text-align: center; }
-.option-ai { border-color: #3b82f6; background-color: #eff6ff; }
-.option-ai:hover { background-color: #dbeafe; }
-.option-title { font-size: 1.125rem; font-weight: 700; color: #111827; margin-bottom: 0.25rem; }
-.option-subtitle { font-size: 0.875rem; color: #6b7280; }
-.divider { display: flex; align-items: center; text-align: center; color: #9ca3af; font-size: 0.875rem; }
-.divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #e5e7eb; }
-.divider span { padding: 0 1rem; }
-.loading-container { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 4rem 0; flex: 1; }
-.spinner-wrapper { position: relative; width: 4rem; height: 4rem; margin-bottom: 2rem; }
-.spinner { position: absolute; width: 100%; height: 100%; border: 4px solid #e5e7eb; border-top-color: #1f2937; border-radius: 50%; animation: spin 1s linear infinite; }
-.spinner-center { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 0.5rem; height: 0.5rem; background-color: #1f2937; border-radius: 50%; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.loading-title { font-size: 1.5rem; font-weight: 700; color: #111827; margin-bottom: 0.5rem; }
-.loading-text { color: #6b7280; }
-
-/* ===================================================================
-   10. LANDING PAGE
-   =================================================================== */
-.landing-page { 
-  min-height: 100vh; 
-  width: 100vw;
-  display: flex; 
-  flex-direction: column; 
-  background-color: #111827; 
-  color: white; 
-}
-  
-.landing-main { 
-  flex: 1; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  padding: 2rem; 
-  width: 100%;
-  padding-top: 4rem
-}
-.landing-content { 
-  text-align: center; 
-  max-width: 600px; 
-}
-.landing-logo { 
-  width: 6rem; 
-  height: 6rem; 
-  border: 4px solid white; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  margin: 0 auto 2rem; 
-  font-size: 2.5rem; 
-  font-weight: 700; 
-}
-.landing-text { 
-  margin-bottom: 3rem; 
-}
-.landing-title { 
-  font-size: 3rem; 
-  font-weight: 800; 
-  margin-bottom: 0.5rem; 
-}
-.landing-subtitle { 
-  font-size: 1.5rem; 
-  color: #9ca3af; 
-  margin-bottom: 1rem; 
+.flow-back-btn {
+  margin-bottom: 1rem;
 }
