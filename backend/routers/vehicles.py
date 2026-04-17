@@ -36,9 +36,9 @@ def decode_vin(vin: str):
         if missing:
             return {
                 "partial": True,
-                "make": decoded.get("make",  ""),
-                "model": decoded.get("model", ""),
-                "year": decoded.get("year",  ""),
+                "make": decoded.get("make", ""),
+                "model": decoded.get("model",""),
+                "year": decoded.get("year", ""),
                 "message": f"Could not decode: {', '.join(missing)}",
             }
         return {
@@ -67,9 +67,9 @@ def estimate_materials(vehicle: MaterialRequest):
         year = int(vehicle.year)
     except Exception:
         year_str = "Unknown Year"
-        year     = 2010
+        year = 2010
 
-    make = vehicle.make  or "Unknown Make"
+    make = vehicle.make or "Unknown Make"
     model = vehicle.model or "Unknown Model"
     make_lower = make.lower()
     model_lower = model.lower()

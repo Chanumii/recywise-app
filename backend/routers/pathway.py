@@ -42,8 +42,8 @@ def generate_pathway(request: PathwayRequest):
 
         # ── Phase 1: Validate vehicle identification ──────────────
         if not (
-            request.vehicle.year and request.vehicle.year.strip()  and
-            request.vehicle.make and request.vehicle.make.strip()  and
+            request.vehicle.year and request.vehicle.year.strip() and
+            request.vehicle.make and request.vehicle.make.strip() and
             request.vehicle.model and request.vehicle.model.strip()
         ):
             raise HTTPException(
@@ -61,10 +61,10 @@ def generate_pathway(request: PathwayRequest):
             and request.custom_labour_rate > 0.0
         ):
             effective_rate = float(request.custom_labour_rate)
-            logger.info(f"Effective rate: ${effective_rate:.2f}/hr (custom)")
+            logger.info(f"Effective rate: ${effective_rate:.2f}/hr(custom)")
         else:
             effective_rate = market_data["labor_rate"]
-            logger.info(f"Effective rate: ${effective_rate:.2f}/hr (market default)")
+            logger.info(f"Effective rate: ${effective_rate:.2f}/hr(market default)")
 
         # ── Phase 4: Retrieve curb weight ─────────────────────────
         try:
@@ -78,10 +78,10 @@ def generate_pathway(request: PathwayRequest):
 
         # ── Phase 5: Engine info and PGM catalyst valuation ───────
         materials = request.materials or {}
-        w_steel = vehicle_weight * (materials.get("Steel",    60) / 100)
+        w_steel = vehicle_weight * (materials.get("Steel", 60) / 100)
         w_alum = vehicle_weight * (materials.get("Aluminum", 10) / 100)
-        w_copper = vehicle_weight * (materials.get("Copper",    2) / 100)
-        w_glass = vehicle_weight * (materials.get("Glass",     3) / 100)
+        w_copper = vehicle_weight * (materials.get("Copper", 2) / 100)
+        w_glass = vehicle_weight * (materials.get("Glass", 3) / 100)
 
         engine_info = get_engine_info(
             str(request.vehicle.year),
@@ -139,7 +139,7 @@ def generate_pathway(request: PathwayRequest):
         for a in active_actions:
             # Resolve operator-configured duration.
             resolved_time = _resolve_action_time(
-                action_id  = a["id"],
+                action_id = a["id"],
                 default_time = a["time"],
                 custom_times = request.custom_action_times,
             )
@@ -157,26 +157,26 @@ def generate_pathway(request: PathwayRequest):
             rpm = rev / resolved_time            # revenue per resolved minute
 
             rows.append({
-                "w_cat": round(features["w_cat"],  3),
-                "w_eng": round(features["w_eng"],  3),
+                "w_cat": round(features["w_cat"], 3),
+                "w_eng": round(features["w_eng"], 3),
                 "w_trans":round(features["w_trans"],3),
-                "w_ecu": round(features["w_ecu"],  3),
-                "w_whl": round(features["w_whl"],  3),
-                "w_pnl": round(features["w_pnl"],  3),
-                "w_cop": round(features["w_cop"],  3),
-                "w_gls": round(features["w_gls"],  3),
-                "w_seat": round(features["w_seat"], 3),
+                "w_ecu": round(features["w_ecu"], 3),
+                "w_whl": round(features["w_whl"], 3),
+                "w_pnl": round(features["w_pnl"], 3),
+                "w_cop": round(features["w_cop"], 3),
+                "w_gls": round(features["w_gls"], 3),
+                "w_seat": round(features["w_seat"],3),
                 "w_body": round(features["w_body"], 3),
-                "w_rad": round(features["w_rad"],  3),
+                "w_rad": round(features["w_rad"], 3),
                 "m_steel": features["m_steel"],
                 "m_alum": features["m_alum"],
                 "m_cop": features["m_cop"],
                 "m_labor": features["m_labor"],
                 "m_gls": features["m_gls"],
-                "v_cat": round(features["v_cat"],  3),
-                "v_eng": round(features["v_eng"],  3),
-                "v_ref": round(features["v_ref"],  3),
-                "v_batt": round(features["v_batt"], 3),
+                "v_cat": round(features["v_cat"], 3),
+                "v_eng": round(features["v_eng"], 3),
+                "v_ref": round(features["v_ref"], 3),
+                "v_batt": round(features["v_batt"],3),
                 "v_tyre": round(features["v_tyre"], 3),
                 # All six economic signals derived from resolved time and rate:
                 "act_time": resolved_time,             

@@ -150,11 +150,11 @@ def apply_condition_flags(features: dict, flags: dict) -> tuple:
 
     # ── Body damage on structural weights ─────────────────────────
     if body_dmg == "heavy":
-        f["w_pnl"] = round(f["w_pnl"]  * 0.50, 3)
+        f["w_pnl"] = round(f["w_pnl"] * 0.50, 3)
         f["w_body"] = round(f["w_body"] * 0.75, 3)
         notes.append("Heavy damage: panels −50%, hull −25%")
     elif body_dmg == "fire":
-        f["w_pnl"] = round(f["w_pnl"]  * 0.20, 3)
+        f["w_pnl"] = round(f["w_pnl"] * 0.20, 3)
         f["w_body"] = round(f["w_body"] * 0.60, 3)
         notes.append("Fire: panels −80%, hull −40%")
 
@@ -177,7 +177,7 @@ def apply_condition_flags(features: dict, flags: dict) -> tuple:
         notes.append("All wheels absent: step removed")
     elif wheels < 4:
         ratio = wheels / 4
-        f["w_whl"] = round(f["w_whl"]  * ratio, 3)
+        f["w_whl"] = round(f["w_whl"] * ratio, 3)
         f["v_tyre"] = round(f["v_tyre"] * ratio, 3)
         notes.append(f"{4 - wheels} wheel(s) missing: scaled to {wheels}/4")
 
@@ -266,15 +266,15 @@ def _action_revenue(action: dict, features: dict) -> float:
     if t == "v_cat": return features["v_cat"]
     if t == "v_eng": return features["v_eng"]
     if t == "w_trans_steel": return features["w_trans"] * features["m_steel"] * 0.6
-    if t == "w_cop_cop": return features["w_cop"]   * features["m_cop"]
-    if t == "w_whl_alum": return features["w_whl"]   * features["m_alum"]
+    if t == "w_cop_cop": return features["w_cop"] * features["m_cop"]
+    if t == "w_whl_alum": return features["w_whl"] * features["m_alum"]
     if t == "v_batt": return features["v_batt"]
     if t == "v_ref": return features["v_ref"]
-    if t == "w_rad_alum": return features["w_rad"]   * features["m_alum"]
-    if t == "w_pnl_steel": return features["w_pnl"]   * features["m_steel"]
-    if t == "v_tyre_4": return features["v_tyre"]  * 4
-    if t == "w_gls_gls": return features["w_gls"]   * features["m_gls"]
-    if t == "w_body_steel": return features["w_body"]  * features["m_steel"]
+    if t == "w_rad_alum": return features["w_rad"] * features["m_alum"]
+    if t == "w_pnl_steel": return features["w_pnl"] * features["m_steel"]
+    if t == "v_tyre_4": return features["v_tyre"] * 4
+    if t == "w_gls_gls": return features["w_gls"] * features["m_gls"]
+    if t == "w_body_steel": return features["w_body"] * features["m_steel"]
     return 0.0
 
 
@@ -307,8 +307,8 @@ def build_explanation(
     mins = resolved_time if resolved_time is not None else float(action["time"])
 
     p_copper = market_data.get("p_copper", DEFAULT_MARKET_DATA["p_copper"])
-    p_steel = market_data.get("p_steel",  DEFAULT_MARKET_DATA["p_steel"])
-    p_alum = market_data.get("p_alum",   DEFAULT_MARKET_DATA["p_alum"])
+    p_steel = market_data.get("p_steel", DEFAULT_MARKET_DATA["p_steel"])
+    p_alum = market_data.get("p_alum", DEFAULT_MARKET_DATA["p_alum"])
 
     lines = []
     reasons = []
@@ -325,11 +325,11 @@ def build_explanation(
             f"Do this last (step {rank} of {total_steps}). "
             "The hull can only be crushed once everything else has been removed."
         )
-    elif rank == 1:  lines.append("Top priority, do this first.")
-    elif rank <= 3:  lines.append(f"High priority, do this early (step {rank} of {total_steps}).")
-    elif rank <= 6:  lines.append(f"Do this in the first half of the job (step {rank} of {total_steps}).")
-    elif rank <= 9:  lines.append(f"Do this in the second half of the job (step {rank} of {total_steps}).")
-    else:            lines.append(f"Do this near the end (step {rank} of {total_steps}).")
+    elif rank == 1: lines.append("Top priority, do this first.")
+    elif rank <= 3: lines.append(f"High priority, do this early (step {rank} of {total_steps}).")
+    elif rank <= 6: lines.append(f"Do this in the first half of the job (step {rank} of {total_steps}).")
+    elif rank <= 9: lines.append(f"Do this in the second half of the job (step {rank} of {total_steps}).")
+    else:lines.append(f"Do this near the end (step {rank} of {total_steps}).")
 
     # ── Part 2: EARNINGS ─────────────────────────────────────────
     if name not in MANDATORY_NAMES:
@@ -414,7 +414,7 @@ def build_explanation(
         if features.get("w_ecu", 0) >= 3: reasons.append("good electronics content on this vehicle")
         else: limiting.append("limited electronics content")
     elif name == "Interior/Seat Removal":
-        if w_seat >= 180:  reasons.append("substantial interior worth stripping")
+        if w_seat >= 180: reasons.append("substantial interior worth stripping")
         elif w_seat < 120: limiting.append("limited interior material")
     elif name == "Tyre Removal":
         tc = flags.get("tyre_condition", "worn")
