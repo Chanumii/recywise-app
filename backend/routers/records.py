@@ -7,9 +7,8 @@ from database import DB_PATH
 router = APIRouter()
 logger    = logging.getLogger(__name__)
 
-# ─────────────────────────────────────────────────────────────────
-# ENDPOINT: SAVE VEHICLE RECORD
-# ─────────────────────────────────────────────────────────────────
+
+# Save vehicle record
 
 @router.post("/api/save_record")
 def save_record(request: SaveRecordRequest):
@@ -46,9 +45,8 @@ def save_record(request: SaveRecordRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ─────────────────────────────────────────────────────────────────
-# ENDPOINT: GET VEHICLE HISTORY (list)
-# ─────────────────────────────────────────────────────────────────
+
+# Get vehicle history (list)
 
 @router.get("/api/vehicle_history")
 def get_vehicle_history():
@@ -72,9 +70,7 @@ def get_vehicle_history():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# ─────────────────────────────────────────────────────────────────
-# ENDPOINT: GET SINGLE VEHICLE RECORD
-# ─────────────────────────────────────────────────────────────────
+# Get single vehicle record
 
 @router.get("/api/vehicle_record/{record_id}")
 def get_vehicle_record(record_id: int):

@@ -4,7 +4,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/react/24/outline';
 //collapsible left navigation panel.
 
 const Sidebar = ({ page, onNav, onNewVehicle, currentUser, onLogout }) => {
-  // collapsed state is local — the flex layout handles content expansion automatically
+  // collapsed state is local - the flex layout handles content expansion automatically
   const [collapsed, setCollapsed] = useState(false);
 
   const isAdmin = currentUser?.role === 'admin';
@@ -74,7 +74,7 @@ const Sidebar = ({ page, onNav, onNewVehicle, currentUser, onLogout }) => {
 
       {/* ── Navigation items ──────────────────────────────── */}
       <nav className="sidebar-nav">
-        {/* Section label hidden when collapsed (conditional render, not CSS) */}
+        {/* Section label hidden when collapsed */}
         {!collapsed && <p className="sidebar-section-label">Navigation</p>}
 
         {navItems.map(item => (
@@ -111,7 +111,7 @@ const Sidebar = ({ page, onNav, onNewVehicle, currentUser, onLogout }) => {
       {/* ── Bottom: help card + user info ─────────────────── */}
       <div className="sidebar-footer">
 
-        {/* Help card — hidden when collapsed */}
+        {/* Help card -  hidden when collapsed */}
         {!collapsed && (
           <div className="sidebar-help">
             <div className="sidebar-help-card">
@@ -126,7 +126,7 @@ const Sidebar = ({ page, onNav, onNewVehicle, currentUser, onLogout }) => {
           </div>
         )}
 
-        {/* User info strip — avatar always visible; name/role hidden when collapsed */}
+        {/* User info strip - avatar always visible; name/role hidden when collapsed */}
         <div className="sidebar-user-info">
           <div className="sidebar-user-card">
 
@@ -135,7 +135,7 @@ const Sidebar = ({ page, onNav, onNewVehicle, currentUser, onLogout }) => {
               {currentUser?.name?.charAt(0)?.toUpperCase() || '?'}
             </div>
 
-            {/* Name and role — hidden when collapsed */}
+            {/* Name and role - hidden when collapsed */}
             {!collapsed && (
               <div className="sidebar-user-details">
                 <div className="sidebar-user-name">{currentUser?.name}</div>
@@ -143,7 +143,7 @@ const Sidebar = ({ page, onNav, onNewVehicle, currentUser, onLogout }) => {
               </div>
             )}
 
-            {/* Logout button — always visible (icon only) */}
+            {/* Logout button - always visible */}
             <button
               className="sidebar-logout-btn"
               onClick={onLogout}

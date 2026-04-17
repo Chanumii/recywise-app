@@ -6,9 +6,7 @@ from database import init_db
 from routers import vehicles, pathway, records, settings
 
 
-# ─────────────────────────────────────────────────────────────────
-# CONFIGURATION & LOGGING
-# ─────────────────────────────────────────────────────────────────
+# Configuration & Logging
 
 logging.basicConfig(
     level=logging.INFO,
@@ -19,7 +17,7 @@ logging.basicConfig(
 app = FastAPI(title="RecyWise Backend", redirect_slashes=False)
 
 # Cross-Origin Resource Sharing middleware.
-# satisfies the data-privacy design goal that the API cannot be called from arbitrary third-party web pages.
+# satisfies the data-privacy design goal. the API cannot be called from third-party web pages.
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[

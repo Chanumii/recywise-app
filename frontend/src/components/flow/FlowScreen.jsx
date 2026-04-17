@@ -6,7 +6,7 @@ import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 const FlowScreen = ({ title, err, onBack, children, gradient, wide, noCard }) => (
   <div className={`flow-page${gradient ? ' flow-page-gradient' : ''}`}>
 
-    {/* Back button — at page level, uses flow-page padding for left alignment */}
+    {/* Back button - at page level, uses flow-page padding for left alignment */}
     {onBack && (
       <button onClick={onBack} className="back-button flow-back-btn">
         <ArrowLeftIcon className="back-icon" />

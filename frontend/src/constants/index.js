@@ -1,6 +1,4 @@
-// ═══════════════════════════════════════════════════════════════════
 // CONSTANTS & UTILS
-// ═══════════════════════════════════════════════════════════════════
 
 export const API_BASE_URL = "http://localhost:8000";
 
@@ -28,8 +26,6 @@ export const DEFAULT_FLAGS = {
 
 /**
  * Metadata for the 16 recycling actions.
- * The `id` property is strictly mapped to the Python backend's internal indexing
- * to ensure custom times are applied to the correct action in the ML model.
  */
 export const ACTIONS_META = [
   { id: 0, name: "Safe Depollution", defaultTime: 40 },

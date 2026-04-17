@@ -1,9 +1,8 @@
 from pydantic import BaseModel
 from typing import Any, Dict, List, Optional
 
-# ─────────────────────────────────────────────────────────────────
+
 # DATA MODELS
-# ─────────────────────────────────────────────────────────────────
 
 class VehicleRequest(BaseModel):
     """Minimal vehicle identification fields shared across several requests."""
@@ -22,23 +21,6 @@ class MaterialRequest(BaseModel):
 class PathwayRequest(BaseModel):
     """
     Request body for POST /api/generate_pathway.
-
-    Attributes
-    vehicle : VehicleRequest
-        Year, make, and model of the vehicle being processed.
-
-    materials : dict, optional
-        Material composition percentages keyed by material name.
-
-    condition_flags : dict, optional
-        18 vehicle intake assessment flags.
-
-    custom_labour_rate : float, optional
-        Facility-level technician hourly rate in USD/hr.  
-        Non-positive values are silently replaced by the market default.
-
-    custom_action_times : dict[str, float], optional
-        Per-action duration overrides in minutes, keyed by action ID as a string.
 
     """
     vehicle:             VehicleRequest

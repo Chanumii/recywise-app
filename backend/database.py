@@ -5,10 +5,9 @@ from config import BASE_DIR
 
 logger = logging.getLogger(__name__)
 
-# ─────────────────────────────────────────────────────────────────
+
 # SQLITE DATABASE
 # A single SQLite file (recywise.db) provides storage for vehicle records.  
-# ─────────────────────────────────────────────────────────────────
 
 DB_PATH = os.path.join(BASE_DIR, "recywise.db")
 

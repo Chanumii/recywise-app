@@ -40,7 +40,6 @@ import SupportPage   from './pages/static/SupportPage';
 function App() {
 
   // ── Auth state ─────────────────────────────────────────────────
-  // Lazily restored from localStorage so the session persists on refresh
   const [currentUser, setCurrentUser] = useState(() => {
     try {
       const saved = localStorage.getItem('recywise_current_user');
@@ -65,7 +64,7 @@ function App() {
   const [selectedRecord, setSelectedRecord] = useState(null);
   const [recordLoading,  setRecordLoading]  = useState(false);
 
-  // ── Yard settings (persisted to localStorage) ─────────────────
+  // ── Yard settings ─────────────────
   const [yardSettings, setYardSettings] = useState(() => {
     try {
       const saved = localStorage.getItem('recywise_yard_settings');
@@ -249,7 +248,7 @@ function App() {
                       <span className="vin-counter-valid">Valid format</span>
                     ) : (
                       <span className="vin-counter-invalid">
-                        — {17 - vin.length} more character{17 - vin.length !== 1 ? 's' : ''} needed
+                        - {17 - vin.length} more character{17 - vin.length !== 1 ? 's' : ''} needed
                       </span>
                     )}
                   </div>

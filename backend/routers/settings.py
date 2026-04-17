@@ -4,9 +4,7 @@ from ml_model import bst
 
 router = APIRouter()
 
-# ─────────────────────────────────────────────────────────────────
-# ENDPOINT: DEFAULT SETTINGS
-# ─────────────────────────────────────────────────────────────────
+# Default settings
 
 @router.get("/api/default_settings")
 def get_default_settings():
@@ -19,16 +17,11 @@ def get_default_settings():
     }
 
 
-# ─────────────────────────────────────────────────────────────────
-# ENDPOINT: FEATURE IMPORTANCE
-# ─────────────────────────────────────────────────────────────────
+# Feature importance scores
 
 @router.get("/api/model/feature_importance")
 def feature_importance():
-    """
-    Return XGBoost feature importance scores (by gain) sorted descending.
-    Gain = average improvement in the objective per feature split (Chen & Guestrin, 2016).
-    """
+    
     try:
         scores = bst.get_score(importance_type="gain")
         return dict(sorted(scores.items(), key=lambda x: x[1], reverse=True))

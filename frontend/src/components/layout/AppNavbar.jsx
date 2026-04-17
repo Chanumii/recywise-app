@@ -8,7 +8,7 @@ const AppNavbar = ({ onLogoClick, onNewVehicle }) => (
   <nav className="navbar">
     <div className="navbar-container">
 
-      {/* Brand logo — clicking navigates to Dashboard */}
+      {/* Brand logo - clicking navigates to Dashboard */}
       <button className="navbar-brand-btn" onClick={onLogoClick}>
         <img src={logoIcon} alt="RecyWise icon" className="navbar-logo-img" />
         <img src={logoText} alt="RecyWise"      className="navbar-text-img" />

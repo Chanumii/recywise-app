@@ -1,7 +1,6 @@
 
 /* ===================================================================
-   1. RESET & BASE
-   Universal box-sizing and font stack applied to every element.
+   1. BASE
    =================================================================== */
 
 *, *::before, *::after {
@@ -25,42 +24,35 @@ body, html, #root {
    2. APP SHELL
    =================================================================== */
 
-/* Root flex column spans the full viewport height */
 .app-root {
   display:        flex;
   flex-direction: column;
   min-height:     100vh;
 }
 
-/* Body row sits below the fixed 4rem navbar */
 .app-body {
   display:    flex;
   flex:       1;
-  padding-top: 4rem;                   /* offset for fixed navbar height */
-  min-height: calc(100vh - 4rem - 52px); /* 52px = footer height */
+  padding-top: 4rem;                  
+  min-height: calc(100vh - 4rem - 52px); 
 }
 
-/* Main content area fills remaining horizontal space */
 .app-content {
   flex:      1;
-  min-width: 0;                        /* prevents flex overflow */
+  min-width: 0;                        
   background-color: #f1f5f9;
   overflow-x: hidden;
 }
 
-/* Padded page wrapper used by Dashboard, History, Results, Settings */
 .page-content {
   padding: 1.5rem 2rem 2rem;
   width:   100%;
 }
 
-/* Standard page header block */
 .page-header {
   margin-bottom: 1.25rem;
 }
 
-/* Centred heading variant used by static pages (Privacy, Terms, Support).
-   Fix 1 (v2.3.0): centres the h1 so legal/info pages look formal. */
 .page-header-centered {
   text-align:    center;
   margin-bottom: 1.5rem;
@@ -75,7 +67,7 @@ body, html, #root {
    =================================================================== */
 
 .navbar {
-  background-color: #0f172a;           /* slate-950 */
+  background-color: #0f172a;           
   color:            white;
   box-shadow:       0 1px 4px rgba(0,0,0,0.3);
   position:         fixed;
@@ -111,14 +103,12 @@ body, html, #root {
 }
 .navbar-brand-btn:hover { background-color: rgba(255,255,255,0.08); }
 
-/* Right-hand container — Settings gear + New Vehicle button */
 .navbar-right {
   display:     flex;
   align-items: center;
   gap:         0.625rem;
 }
 
-/* Settings gear icon button — added v2.3.0 */
 .nav-settings-btn {
   display:       flex;
   align-items:   center;
@@ -128,7 +118,7 @@ body, html, #root {
   background:    none;
   border:        none;
   border-radius: 0.4375rem;
-  color:         #94a3b8;              /* slate-400 — muted to not compete with brand */
+  color:         #94a3b8;              
   cursor:        pointer;
   transition:    background-color 0.15s, color 0.15s;
   flex-shrink:   0;
@@ -146,7 +136,7 @@ body, html, #root {
   display:       inline-flex;
   align-items:   center;
   padding:       0.375rem 0.875rem;
-  background-color: #059669;           /* emerald-600 brand green */
+  background-color: #059669;           
   color:         white;
   border:        none;
   border-radius: 0.375rem;
@@ -166,13 +156,13 @@ body, html, #root {
 .app-sidebar {
   width:     220px;
   min-width: 220px;
-  background-color: #1e293b;           /* slate-800 */
+  background-color: #1e293b;           
   border-right: 1px solid rgba(255,255,255,0.06);
   display:        flex;
   flex-direction: column;
   justify-content: space-between;
   position:   sticky;
-  top:        4rem;                    /* offset for fixed navbar */
+  top:        4rem;                    
   height:     calc(100vh - 4rem);
   overflow-y: auto;
   flex-shrink: 0;
@@ -181,11 +171,10 @@ body, html, #root {
 /* Navigation section within the sidebar */
 .sidebar-nav { padding: 1.125rem 0.75rem 0.5rem; }
 
-/* Small uppercase label above the nav items */
 .sidebar-section-label {
   font-size:      0.625rem;
   font-weight:    700;
-  color:          #475569;             /* slate-600 */
+  color:          #475569;             
   text-transform: uppercase;
   letter-spacing: 0.1em;
   padding:        0 0.5rem;
@@ -202,7 +191,7 @@ body, html, #root {
   padding:     0.5625rem 0.75rem;
   font-size:   0.875rem;
   font-weight: 500;
-  color:       #94a3b8;                /* slate-400 */
+  color:       #94a3b8;                
   background:  none;
   border:      none;
   border-radius: 0.5rem;
@@ -218,7 +207,6 @@ body, html, #root {
 /* Icon inside each sidebar item */
 .sidebar-icon { width: 1rem; height: 1rem; flex-shrink: 0; }
 
-/* Help card at the bottom of the sidebar */
 .sidebar-help      { padding: 0 0.75rem 1.25rem; }
 .sidebar-help-card {
   background:    rgba(255,255,255,0.05);
@@ -282,7 +270,6 @@ body, html, #root {
 
 /* ===================================================================
    6. FLOW SCREEN WRAPPER
-   Consistent card wrapper for every vehicle-processing screen (2–9).
    =================================================================== */
 
 /* Full-width outer container for flow screens */
@@ -293,14 +280,11 @@ body, html, #root {
   background-color: #f1f5f9;
 }
 
-/* Green-blue radial gradient background for intake/material screens */
 .flow-page-gradient {
   background: linear-gradient(135deg,
     #ecfdf5 0%, #f0f9ff 40%, #f8fafc 70%, #f5f3ff 100%);
 }
 
-/* Centred variant used only by Screen 9 (loading spinner).
-   Screen 2 uses flow-content-wrapper instead (Fix 5 / Fix 8). */
 .flow-page-centered {
   display:         flex;
   flex-direction:  column;
@@ -309,14 +293,11 @@ body, html, #root {
   padding:         2rem;
 }
 
-/* Inner centred column — 640 px default, 760 px for condition screen */
 .flow-content-wrapper      { width: 100%; max-width: 640px; margin: 0 auto; }
 .flow-content-wrapper-wide { max-width: 760px; }
 
-/* Back button inside flow wrapper — always top-left of the wrapper */
 .flow-back-btn { margin-bottom: 1.125rem; }
 
-/* Shared back-button style (also used on results & record-detail pages) */
 .back-button {
   display:     flex;
   align-items: center;
@@ -334,7 +315,6 @@ body, html, #root {
 .back-button:hover { color: #0f172a; }
 .back-icon         { width: 1.0625rem; height: 1.0625rem; }
 
-/* White card used on most flow screens */
 .card {
   background:    white;
   border-radius: 0.75rem;
@@ -343,7 +323,6 @@ body, html, #root {
   padding:       2rem;
 }
 
-/* Centred heading used inside .card on flow screens */
 .card-title {
   font-size:     1.375rem;
   font-weight:   700;
@@ -351,7 +330,6 @@ body, html, #root {
   margin-bottom: 1.25rem;
   text-align:    center;
 }
-
 
 /* ===================================================================
    7. VIN HERO SECTION
@@ -448,7 +426,6 @@ body, html, #root {
 .btn-text     { background: none; color: #64748b; text-decoration: underline; font-size: 0.875rem; }
 .btn-text:hover:not(:disabled)      { color: #334155; }
 
-/* Vertical button stack used on several flow screens */
 .button-group { display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1.25rem; }
 
 
@@ -461,7 +438,6 @@ body, html, #root {
 .form-group-stack  { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.25rem; }
 .form-label        { display: block; font-size: 0.875rem; font-weight: 600; color: #374151; margin-bottom: 0.375rem; }
 
-/* Base text input — white bg forced to override autofill */
 .form-input {
   width:         100%;
   padding:       0.6875rem 0.875rem;
@@ -481,14 +457,12 @@ body, html, #root {
   background-color: #ffffff !important;
 }
 
-/* Variant for inputs on light backgrounds (manual entry screen) */
 .form-input-light {
   background-color:        #ffffff !important;
   color:                   #0f172a !important;
   -webkit-text-fill-color: #0f172a;
 }
 
-/* Monospace VIN input */
 .vin-input {
   font-family:             monospace;
   font-size:               1.25rem;
@@ -513,7 +487,6 @@ body, html, #root {
    Shared table styles used in Dashboard, History, Results, Settings.
    =================================================================== */
 
-/* Rounded bordered table container */
 .table-container {
   border:        1px solid #e2e8f0;
   border-radius: 0.625rem;
@@ -523,10 +496,8 @@ body, html, #root {
 }
 .table-scroll { max-height: 400px; overflow-y: auto; }
 
-/* Full-width borderless table inside the container */
 .data-table { width: 100%; border-collapse: collapse; }
 
-/* Standard light header */
 .table-header {
   background-color: #f8fafc;
   padding:          0.625rem 1rem;
@@ -538,20 +509,16 @@ body, html, #root {
   letter-spacing:   0.06em;
 }
 
-/* Dark header variant — used for the pathway step table */
 .table-header-dark .table-header { background-color: #1e293b; color: #e2e8f0; }
 
-/* Sticky positioning for scrollable table headers */
 .sticky-header { position: sticky; top: 0; z-index: 10; }
 
-/* Body rows */
 .table-row       { border-top: 1px solid #f1f5f9; }
 .table-row:hover { background-color: #f8fafc; }
 .table-cell      { padding: 0.6875rem 1rem; font-size: 0.875rem; color: #0f172a; }
 .text-right      { text-align: right; }
 .table-value     { font-weight: 600; }
 
-/* Inline number input for editable table cells (material composition) */
 .table-input {
   width:         100px;
   padding:       0.25rem 0.5rem;
@@ -562,7 +529,6 @@ body, html, #root {
   color:         #0f172a;
 }
 
-/* Pathway sequence number cell — blue accent */
 .pathway-seq     { color: #2563eb; font-weight: 700; }
 .profit-positive { color: #059669; font-weight: 700; }
 .profit-negative { color: #dc2626; font-weight: 700; }
@@ -607,22 +573,18 @@ body, html, #root {
   text-align:     center;
 }
 
-/* Rings container */
 .loading-rings { position: relative; width: 120px; height: 120px; margin-bottom: 2rem; }
 
-/* Base ring: positioned absolute, transparent borders except the top */
 .lring {
   position:      absolute;
   border-radius: 50%;
   border:        3px solid transparent;
 }
 
-/* Three rings with different radii and animation speeds/directions */
 .lring-1 { inset: 0;    border-top-color: #059669;             animation: spin 1.2s linear infinite; }
 .lring-2 { inset: 14px; border-top-color: #0d9488; border-right-color: #0d9488; animation: spin 1.8s linear infinite reverse; }
 .lring-3 { inset: 28px; border-top-color: #6366f1;             animation: spin 2.4s linear infinite; }
 
-/* Centre circle with recycling icon */
 .lring-core {
   position:      absolute;
   inset:         42px;
@@ -635,16 +597,13 @@ body, html, #root {
 }
 .lring-icon { width: 1.375rem; height: 1.375rem; color: #059669; animation: spin 3s linear infinite; }
 
-/* Single rotation keyframe used by all rings */
 @keyframes spin { to { transform: rotate(360deg); } }
 
 .loading-title    { font-size: 1.25rem; font-weight: 700; color: #0f172a; margin-bottom: 0.375rem; }
 .loading-subtitle { font-size: 0.875rem; color: #64748b; margin-bottom: 1.5rem; }
 
-/* Stage label list */
 .loading-stages { display: flex; flex-direction: column; gap: 0.5rem; width: 100%; }
 
-/* Individual stage: fades and slides in from the left */
 .loading-stage {
   display:       flex;
   align-items:   center;
@@ -663,7 +622,6 @@ body, html, #root {
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Pulsing dot inside each stage label */
 .stage-dot {
   width:         8px;
   height:        8px;
@@ -690,7 +648,6 @@ body, html, #root {
 .option-ai:hover { background: #dcfce7; }
 .option-title { font-size: 1rem; font-weight: 700; color: #0f172a; }
 
-/* "OR" divider between AI and manual options */
 .divider { display: flex; align-items: center; color: #94a3b8; font-size: 0.875rem; }
 .divider::before, .divider::after { content: ''; flex: 1; border-bottom: 1px solid #e2e8f0; }
 .divider span { padding: 0 0.875rem; }
@@ -709,7 +666,6 @@ body, html, #root {
   flex-wrap:       wrap;
 }
 
-/* "Today" green badge next to date subtitle */
 .today-badge {
   display:        inline-block;
   background:     #dcfce7;
@@ -724,7 +680,6 @@ body, html, #root {
   letter-spacing: 0.06em;
 }
 
-/* Date picker label + input group (top-right of dashboard) */
 .date-picker-wrapper { display: flex; flex-direction: column; align-items: flex-end; gap: 0.25rem; }
 .date-picker-label   { font-size: 0.6875rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; }
 .dashboard-date-picker {
@@ -747,7 +702,6 @@ body, html, #root {
   margin-bottom:         1.25rem;
 }
 
-/* Base KPI card — left-border accent colour changes per variant */
 .dashboard-kpi-card  { background: white; border: 1px solid #e2e8f0; border-radius: 0.625rem; padding: 1.125rem 1.25rem; border-left: 4px solid #e2e8f0; }
 .dashboard-kpi-blue  { border-left-color: #3b82f6; }
 .dashboard-kpi-green { border-left-color: #059669; }
@@ -764,10 +718,8 @@ body, html, #root {
 .dashboard-empty         { color: #64748b; font-size: 0.9375rem; }
 .dashboard-empty-sub     { color: #94a3b8; font-size: 0.8125rem; margin-top: 0.375rem; }
 
-/* Row hover tint for dashboard records */
 .dashboard-record-row:hover { background-color: #f0f9ff !important; }
 
-/* Cell typography within activity table */
 .record-vehicle   { font-weight: 600; color: #0f172a; display: block; }
 .record-vin       { font-size: 0.75rem; color: #94a3b8; font-family: monospace; display: block; margin-top: 0.125rem; }
 .record-vin-large { font-family: monospace; font-size: 0.8125rem; color: #64748b; }
@@ -789,7 +741,6 @@ body, html, #root {
   margin-bottom:   1.25rem;
 }
 
-/* Search input */
 .history-search {
   padding:       0.5rem 0.875rem;
   border:        1.5px solid #cbd5e1;
@@ -808,7 +759,6 @@ body, html, #root {
    17. RESULTS PAGE
    =================================================================== */
 
-/* Four-column KPI grid — same structure as dashboard but top-border accent */
 .results-kpi-row {
   display:               grid;
   grid-template-columns: repeat(4, 1fr);
@@ -820,7 +770,6 @@ body, html, #root {
 .kpi-value { font-size: 1.75rem;  font-weight: 700; line-height: 1.1; margin-bottom: 0.25rem; }
 .kpi-sub   { font-size: 0.6875rem; color: #94a3b8; line-height: 1.4; }
 
-/* Two-column chart row below the pathway table */
 .results-charts-row  { display: grid; grid-template-columns: 1fr 1fr; gap: 0.875rem; margin-bottom: 1.25rem; }
 .results-chart-card  { border: 1px solid #e2e8f0; border-radius: 0.625rem; padding: 1rem; background: white; min-width: 0; }
 .results-chart-title { font-size: 0.8125rem; font-weight: 600; color: #374151; margin-bottom: 0.625rem; }
@@ -834,7 +783,6 @@ body, html, #root {
 .pathway-main-row:hover { background-color: #f0f9ff !important; }
 .pathway-main-row td:last-child { padding-right: 1rem; vertical-align: middle; }
 
-/* Explanation container row — blue left-border accent */
 .explanation-row  { background-color: #f8fafc; border-top: none !important; }
 .explanation-cell { padding: 0 !important; border-bottom: 1px solid #e2e8f0; }
 .explanation-content {
@@ -860,7 +808,6 @@ body, html, #root {
    19. CONDITION ASSESSMENT
    =================================================================== */
 
-/* Accordion card */
 .condition-section         { border: 1px solid #e2e8f0; border-radius: 0.5rem; overflow: hidden; margin-bottom: 0.625rem; background: white; }
 .condition-section-header  {
   width:         100%;
@@ -882,27 +829,23 @@ body, html, #root {
 .condition-section-icon    { font-size: 0.9375rem; }
 .condition-section-body    { padding: 0.375rem 1rem 0.875rem; background: white; display: flex; flex-direction: column; }
 
-/* Flag row — label group on left, control on right */
 .condition-flag-row            { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.5625rem 0; border-bottom: 1px solid #f1f5f9; }
 .condition-flag-row:last-child { border-bottom: none; }
 .condition-flag-label-group    { display: flex; flex-direction: column; gap: 0.1rem; flex: 1; min-width: 0; }
 .condition-flag-label          { font-size: 0.8125rem; font-weight: 500; color: #374151; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .condition-flag-note           { font-size: 0.6875rem; color: #94a3b8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-/* Segmented three-option control */
 .segmented-control { display: flex; border: 1.5px solid #cbd5e1; border-radius: 0.4375rem; overflow: hidden; flex-shrink: 0; }
 .segmented-btn     { padding: 0.3125rem 0.625rem; background: white; border: none; border-right: 1px solid #e2e8f0; font-size: 0.75rem; font-weight: 500; color: #64748b; cursor: pointer; white-space: nowrap; transition: background-color 0.12s, color 0.12s; }
 .segmented-btn:last-child { border-right: none; }
 .segmented-btn:hover      { background: #f0fdf4; color: #059669; }
 .segmented-btn.active     { background-color: #059669; color: white; font-weight: 600; }
 
-/* Yes / No toggle button */
 .toggle-flag-btn              { min-width: 3.125rem; padding: 0.3125rem 0.625rem; border-radius: 0.375rem; border: 1.5px solid #cbd5e1; background: white; font-size: 0.75rem; font-weight: 600; color: #64748b; cursor: pointer; transition: all 0.12s; flex-shrink: 0; text-align: center; }
 .toggle-flag-btn:hover        { border-color: #94a3b8; background: #f8fafc; }
 .toggle-flag-btn.active       { background: #059669; border-color: #059669; color: white; }
 .toggle-flag-btn.active:hover { background: #047857; border-color: #047857; }
 
-/* Integer count stepper */
 .count-stepper { display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0; }
 .count-btn     { width: 1.875rem; height: 1.875rem; border-radius: 0.375rem; border: 1.5px solid #cbd5e1; background: white; font-size: 1rem; font-weight: 600; color: #374151; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background-color 0.12s; line-height: 1; }
 .count-btn:hover:not(:disabled) { background: #f1f5f9; }
@@ -959,58 +902,48 @@ body, html, #root {
    23. SETTINGS PAGE 
    =================================================================== */
 
-/* ── Explainer info card at the top of Settings ──────────────── */
 
-/* Container for the explanatory info banner */
 .settings-explainer-card {
   display:       flex;
   gap:           0.875rem;
-  background:    #f0f9ff;              /* sky-50 — soft informational blue tint */
-  border:        1px solid #bae6fd;   /* sky-200 */
+  background:    #f0f9ff;              
+  border:        1px solid #bae6fd;   
   border-radius: 0.625rem;
   padding:       1rem 1.125rem;
   margin-bottom: 1.125rem;
   align-items:   flex-start;
 }
 
-/* Circular icon box inside the explainer */
 .settings-explainer-icon {
   display:         flex;
   align-items:     center;
   justify-content: center;
   width:           2.25rem;
   height:          2.25rem;
-  background:      #e0f2fe;           /* sky-100 */
+  background:      #e0f2fe;           
   border-radius:   0.5rem;
   flex-shrink:     0;
-  color:           #0369a1;           /* sky-700 */
+  color:           #0369a1;           
   margin-top:      0.125rem;
 }
 
-/* Text block inside the explainer */
 .settings-explainer-text  { flex: 1; font-size: 0.875rem; color: #374151; line-height: 1.65; }
 .settings-explainer-heading { font-weight: 700; color: #0f172a; margin-bottom: 0.375rem; }
 
-/* ── "Custom values active" warning badge ─────────────────────── */
-
-/* Amber warning strip shown when any value differs from defaults */
 .settings-custom-badge {
   display:       flex;
   align-items:   center;
   gap:           0.375rem;
-  background:    #fffbeb;             /* amber-50 */
-  border:        1px solid #fde68a;  /* amber-200 */
+  background:    #fffbeb;             
+  border:        1px solid #fde68a;  
   border-radius: 0.5rem;
   padding:       0.625rem 0.875rem;
   font-size:     0.8125rem;
-  color:         #92400e;            /* amber-800 */
+  color:         #92400e;            
   font-weight:   500;
   margin-bottom: 1rem;
 }
 
-/* ── Section card (shared container for Rate and Durations) ───── */
-
-/* Rounded white card that wraps each settings section */
 .settings-section-card {
   background:    white;
   border:        1px solid #e2e8f0;
@@ -1019,7 +952,6 @@ body, html, #root {
   box-shadow:    0 1px 3px rgba(0,0,0,0.05);
 }
 
-/* Header row inside a section card: title+subtitle on left, pill on right */
 .settings-section-header {
   display:         flex;
   align-items:     flex-start;
@@ -1028,19 +960,14 @@ body, html, #root {
   gap:             1rem;
 }
 
-/* Section heading text */
 .settings-section-title { font-size: 1rem; font-weight: 700; color: #0f172a; margin-bottom: 0.25rem; }
 
-/* Section description text below the title */
 .settings-section-sub { font-size: 0.8125rem; color: #64748b; line-height: 1.5; }
 
-/* ── "custom" pill badge ────────────────────────────────────────── */
-
-/* Small inline pill shown next to modified values */
 .settings-modified-pill {
   display:        inline-block;
-  background:     #dcfce7;           /* green-100 */
-  color:          #166534;           /* green-800 */
+  background:     #dcfce7;          
+  color:          #166534;          
   font-size:      0.625rem;
   font-weight:    700;
   text-transform: uppercase;
@@ -1051,9 +978,6 @@ body, html, #root {
   vertical-align: middle;
 }
 
-/* ── Section A: Hourly Labour Rate ─────────────────────────────── */
-
-/* Flex row containing the rate input group and the hint block */
 .settings-rate-row {
   display:     flex;
   align-items: center;
@@ -1062,14 +986,12 @@ body, html, #root {
   margin-top:  0.25rem;
 }
 
-/* Inline group: $ prefix + number input + "/hr" suffix */
 .settings-rate-input-group {
   display:     flex;
   align-items: center;
   gap:         0.375rem;
 }
 
-/* Dollar-sign prefix label */
 .settings-dollar-sign {
   font-size:   1.125rem;
   font-weight: 600;
@@ -1077,7 +999,6 @@ body, html, #root {
   flex-shrink: 0;
 }
 
-/* The actual hourly rate number input */
 .settings-rate-input {
   width:         110px;
   padding:       0.5rem 0.625rem;
@@ -1089,7 +1010,7 @@ body, html, #root {
   background:    white;
   text-align:    right;
   transition:    border-color 0.15s, box-shadow 0.15s;
-  /* Remove browser default number spinner arrows for a cleaner look */
+
   -moz-appearance:    textfield;
 }
 .settings-rate-input::-webkit-outer-spin-button,
@@ -1100,7 +1021,6 @@ body, html, #root {
   box-shadow:   0 0 0 3px rgba(5,150,105,0.12);
 }
 
-/* Unit suffix label shared between rate and time inputs */
 .settings-unit-label {
   font-size:   0.8125rem;
   color:       #64748b;
@@ -1108,7 +1028,6 @@ body, html, #root {
   flex-shrink: 0;
 }
 
-/* Hint block to the right of the rate input: "At this rate, a 60-min job costs …" */
 .settings-rate-hint-block {
   background:    #f8fafc;
   border:        1px solid #e2e8f0;
@@ -1118,13 +1037,9 @@ body, html, #root {
 .settings-rate-hint-label { font-size: 0.6875rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 0.125rem; }
 .settings-rate-hint-value { font-size: 0.875rem; color: #374151; }
 
-/* ── Section B: Step Durations table ───────────────────────────── */
-
-/* Highlight for table rows where the time has been customised */
 .settings-row-modified { background-color: #f0fdf4 !important; }
 .settings-row-modified:hover { background-color: #dcfce7 !important; }
 
-/* Inline group: time number input + "min" suffix */
 .settings-time-cell {
   display:         flex;
   align-items:     center;
@@ -1132,7 +1047,6 @@ body, html, #root {
   gap:             0.375rem;
 }
 
-/* The actual action-time number input */
 .settings-time-input {
   width:         80px;
   padding:       0.375rem 0.5rem;
@@ -1144,7 +1058,7 @@ body, html, #root {
   background:    white;
   text-align:    right;
   transition:    border-color 0.15s, box-shadow 0.15s;
-  /* Remove browser spinner arrows */
+ 
   -moz-appearance: textfield;
 }
 .settings-time-input::-webkit-outer-spin-button,
@@ -1155,19 +1069,15 @@ body, html, #root {
   box-shadow:   0 0 0 2px rgba(5,150,105,0.12);
 }
 
-/* Green border applied to any input (rate or time) with a custom value */
 .settings-input-modified {
-  border-color: #059669 !important;   /* green-600 — signals active override */
-  background:   #f0fdf4 !important;   /* green-50 tint */
+  border-color: #059669 !important;   
+  background:   #f0fdf4 !important;   
 }
 .settings-input-modified:focus {
   border-color: #047857 !important;
   box-shadow:   0 0 0 3px rgba(5,150,105,0.15) !important;
 }
 
-/* ── Settings action button row ─────────────────────────────────── */
-
-/* Row at the bottom of Settings with Reset and Save buttons */
 .settings-actions {
   display:         flex;
   align-items:     center;
@@ -1178,9 +1088,8 @@ body, html, #root {
   border-top:      1px solid #f1f5f9;
 }
 
-/* "Save Changes" button when the brief "Saved!" confirmation is active */
 .settings-saved-btn {
-  background-color: #047857 !important;  /* deeper green to signal success */
+  background-color: #047857 !important;  
   cursor:           default;
 }
 .settings-saved-btn:hover { background-color: #047857 !important; }
@@ -1189,11 +1098,10 @@ body, html, #root {
    24. AUTH PAGE (Smart Tech Grid & Dark Ambient Theme)
    =================================================================== */
 
-/* Full page container */
 .b-page {
   min-height:      100vh;
   width:           100vw;
-  background-color: #0b1121; /* Deepest slate */
+  background-color: #0b1121; 
   display:         flex;
   flex-direction:  column;
   align-items:     center;
@@ -1203,18 +1111,16 @@ body, html, #root {
   padding:         2rem 1rem;
 }
 
-/* Massive abstract glows to fill the empty corners */
 .b-page::before,
 .b-page::after {
   content: '';
   position: absolute;
   border-radius: 50%;
-  filter: blur(120px); /* Creates the soft, ambient lighting */
+  filter: blur(120px); 
   z-index: 0;
   pointer-events: none;
 }
 
-/* Top left green glow */
 .b-page::before {
   width: 60vw;
   height: 60vh;
@@ -1223,7 +1129,6 @@ body, html, #root {
   left: -15vw;
 }
 
-/* Bottom right deep blue glow */
 .b-page::after {
   width: 50vw;
   height: 50vh;
@@ -1233,23 +1138,18 @@ body, html, #root {
 }
 
 
-
-/* The single unified card - Dramatically increased shadow for 3D depth */
 .b-card {
   position:      relative;
   z-index:       1;
   width:         100%;
   max-width:     400px;
   border-radius: 1.125rem;
-  /* Heavy, multi-layered shadows to float the card above the dark background */
   box-shadow: 
     0 10px 25px -5px rgba(0, 0, 0, 0.4),
     0 35px 80px -15px rgba(0, 0, 0, 0.7);
   overflow:      hidden;
-  border:        1px solid rgba(255, 255, 255, 0.1); /* Crisp edge against dark bg */
+  border:        1px solid rgba(255, 255, 255, 0.1); 
 }
-
-/* ── Dark header section ──────────────────────────────────────────── */
 
 .b-header {
   position:        relative;
@@ -1261,7 +1161,6 @@ body, html, #root {
   overflow:        hidden;
 }
 
-/* Inner green glow inside the header */
 .b-header-glow {
   position:   absolute;
   top:        -60px;
@@ -1313,14 +1212,12 @@ body, html, #root {
   padding:         0.25rem 0.875rem;
 }
 
-/* ── White form section ───────────────────────────────────────────── */
 
 .b-body {
   background: white;
   padding:    2rem;
 }
 
-/* Bottom credit - Adjusted contrast for the new dark background */
 .b-credit {
   position:   relative;
   z-index:    1;
@@ -1328,8 +1225,6 @@ body, html, #root {
   font-size:  0.75rem;
   color:      #64748b; 
 }
-
-/* ── Card internals (shared) ─────────────────────────── */
 
 .auth-subtitle {
   text-align:    center;
@@ -1417,13 +1312,11 @@ body, html, #root {
    25. COLLAPSIBLE SIDEBAR
    =================================================================== */
 
-/* Collapsed width — .app-content expands automatically via flex: 1 */
 .app-sidebar--collapsed {
   width:     64px;
   min-width: 64px;
 }
 
-/* Center icons when collapsed */
 .app-sidebar--collapsed .sidebar-item {
   justify-content: center;
   padding:         0.625rem 0;
@@ -1435,13 +1328,11 @@ body, html, #root {
   justify-content: center;
 }
 
-/* Sidebar footer: holds help card + user info at the bottom */
 .sidebar-footer {
   display:        flex;
   flex-direction: column;
 }
 
-/* Collapse / expand toggle button */
 .sidebar-collapse-btn {
   width:           100%;
   display:         flex;
@@ -1463,7 +1354,6 @@ body, html, #root {
   background-color: rgba(255,255,255,0.05);
 }
 
-/* User info strip */
 .sidebar-user-info {
   border-top: 1px solid rgba(255,255,255,0.08);
   padding:    0.625rem 0.75rem;
@@ -1474,7 +1364,6 @@ body, html, #root {
   gap:         0.5rem;
 }
 
-/* Avatar circle: first letter of the user's name */
 .sidebar-user-avatar {
   width:            2rem;
   height:           2rem;
@@ -1489,7 +1378,6 @@ body, html, #root {
   flex-shrink:      0;
 }
 
-/* Name and role text — hidden in collapsed mode via conditional render */
 .sidebar-user-details { flex: 1; min-width: 0; }
 .sidebar-user-name {
   font-size:     0.8125rem;
@@ -1505,7 +1393,6 @@ body, html, #root {
   text-transform: capitalize;
 }
 
-/* Logout icon button */
 .sidebar-logout-btn {
   display:     flex;
   align-items: center;
@@ -1532,7 +1419,6 @@ body, html, #root {
   box-shadow:   0 0 0 3px rgba(5,150,105,0.12) !important;
 }
 
-/* Character counter row below the VIN input */
 .vin-counter {
   display:     flex;
   align-items: center;

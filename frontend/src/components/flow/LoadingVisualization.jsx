@@ -1,8 +1,6 @@
 import React from 'react';
 
-// ═══════════════════════════════════════════════════════════════════
 // LOADING VISUALISATION
-// ═══════════════════════════════════════════════════════════════════
 
 const LoadingVisualization = () => {
   // Cascading animation delays for UI feedback during heavy API calls

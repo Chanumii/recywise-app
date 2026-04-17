@@ -5,11 +5,8 @@ from google import genai
 load_dotenv()
 logger        = logging.getLogger(__name__)
 
-# ─────────────────────────────────────────────────────────────────
 # GEMINI CLIENT
-#
-# Used exclusively by /api/estimate_materials. When GEMINI_API_KEY is absent, the endpoint falls back to rule-based heuristics.
-# ─────────────────────────────────────────────────────────────────
+# Used  by /api/estimate_materials. When GEMINI_API_KEY is absent, the endpoint falls back to rule-based heuristics.
 
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 gemini_client  = None
